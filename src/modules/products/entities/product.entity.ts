@@ -6,5 +6,6 @@ export class Product {
   size: string;
   brand: string;
   price: number;
+  discount?: number;
   quantity: number;
 }

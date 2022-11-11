@@ -24,6 +24,11 @@ export class CreateProductDto {
 
   @IsInt()
   @Min(0)
+  @Max(9999999)
+  discount?: number;
+
+  @IsInt()
+  @Min(0)
   @Max(999)
   quantity: number;
 }

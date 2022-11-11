@@ -6,7 +6,8 @@ export class CreateOrderDto {
   id: number;
   products: Product;
   address: Address;
-  status: string;
+  statusPayment: string;
+  statusOrder: string;
   payment: string;
   items: Item[];
 }
