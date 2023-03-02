@@ -30,7 +30,25 @@ export class ProductsService {
     return product;
   }
 
-  findAll() {
+  async findAll(quantity: number) {
+    console.log(
+      '🚀 ~ file: products.controller.ts:27 ~ ProductsController ~ findAll ~ quantity:',
+      quantity,
+    );
+    let count = 0;
+    while (count < quantity) {
+      this.products.push({
+        id: 1,
+        name: 'Camisa',
+        description: 'Camisa preta de manga curta da Nike tamanho G',
+        color: 'Preta',
+        size: 'G',
+        brand: 'Nike',
+        price: 59.99,
+        quantity: 15,
+      });
+      count += 1;
+    }
     return this.products;
   }
 

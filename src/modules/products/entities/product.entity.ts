@@ -8,4 +8,5 @@ export class Product {
   price: number;
   discount?: number;
   quantity: number;
+  image?: string;
 }

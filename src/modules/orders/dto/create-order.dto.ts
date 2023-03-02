@@ -9,5 +9,6 @@ export class CreateOrderDto {
   statusPayment: string;
   statusOrder: string;
   payment: string;
+  date: Date;
   items: Item[];
 }

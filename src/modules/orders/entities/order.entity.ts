@@ -7,5 +7,6 @@ export class Order {
   statusPayment: string;
   statusOrder: string;
   payment: string;
+  date: Date;
   items: Item[];
 }
