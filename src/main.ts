@@ -5,6 +5,8 @@ import { NotFoundInterceptor } from './interceptors/not-found.interceptors';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // CORS
+  app.enableCors();
   // Pipes
   app.useGlobalPipes(
     new ValidationPipe({
