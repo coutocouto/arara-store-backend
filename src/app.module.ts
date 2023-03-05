@@ -18,6 +18,13 @@ import { CartsModule } from './modules/carts/carts.module';
     AddressModule,
     CartsModule,
     ItemsModule,
+    FirestoreModule.forRoot({
+      imports: [],
+      useFactory: (configService: ConfigService) => ({
+        keyFilename: configService.get<string>('SA_KEY'),
+      }),
+      inject: [ConfigService]
+    })
   ],
   controllers: [AppController],
   providers: [AppService],
