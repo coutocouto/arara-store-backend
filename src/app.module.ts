@@ -8,6 +8,8 @@ import { ItemsModule } from './modules/items/items.module';
 import { FavoritesModule } from './modules/favorites/favorites.module';
 import { AddressModule } from './modules/address/address.module';
 import { CartsModule } from './modules/carts/carts.module';
+import { ConfigModule } from '@nestjs/config';
+import { FirebaseService } from './modules/firebase/firebase.service';
 
 @Module({
   imports: [
@@ -18,15 +20,10 @@ import { CartsModule } from './modules/carts/carts.module';
     AddressModule,
     CartsModule,
     ItemsModule,
-    FirestoreModule.forRoot({
-      imports: [],
-      useFactory: (configService: ConfigService) => ({
-        keyFilename: configService.get<string>('SA_KEY'),
-      }),
-      inject: [ConfigService]
-    })
+    ConfigModule,
+    FirebaseService,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, FirebaseService],
 })
 export class AppModule {}

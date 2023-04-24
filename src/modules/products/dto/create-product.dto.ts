@@ -1,6 +1,8 @@
 import { IsInt, IsString, Max, MaxLength, Min } from 'class-validator';
 
 export class CreateProductDto {
+  static collectionName = 'products';
+
   @IsString()
   name: string;
 

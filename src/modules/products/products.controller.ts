@@ -22,9 +22,9 @@ export class ProductsController {
     return this.productsService.create(createProductDto);
   }
 
-  @Get(':quantity')
-  async findAll(@Param('quantity') quantity: number) {
-    return await this.productsService.findAll(quantity);
+  @Get()
+  async findAll() {
+    return await this.productsService.findAll();
   }
 
   @Get(':id')
