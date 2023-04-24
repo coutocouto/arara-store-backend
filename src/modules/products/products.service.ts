@@ -1,79 +1,88 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { EntityNotFoundError } from '../../errors/not-found.error';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
+import { FirebaseService } from '../firebase/firebase.service';
+import {
+  getDocs,
+  collection,
+  doc,
+  DocumentReference,
+} from 'firebase/firestore';
 
 @Injectable()
 export class ProductsService {
   private products: Product[] = [];
 
-  create(createProductDto: CreateProductDto) {
-    const currentMaxId = this.products[this.products.length - 1]?.id || 0;
+  constructor(private firebaseService: FirebaseService) {}
 
-    const id = currentMaxId + 1;
-    const product: Product = {
-      id,
-      ...createProductDto,
-    };
+  async create(createProductDto: CreateProductDto) {
+    // try {
+    //   const userCredential: UserCredential =
+    //     await createUserWithEmailAndPassword(
+    //       this.firebaseService.auth,
+    //       ...createProductDto,
+    //     );
 
-    const productExists = this.products.find(
-      (product) => product.name === createProductDto.name,
-    );
+    //   if (userCredential) {
+    //     const id: string = userCredential.user.uid;
+    //     const docRef: DocumentReference = doc(
+    //       this.firebaseService.usersCollection,
+    //       id,
+    //     );
+    //     await setDoc(docRef, body);
+    //   }
+    // } catch (error: unknown) {
+    //   const firebaseAuthError = error as AuthError;
 
-    if (productExists) {
-      return 'Product already exists';
-    }
+    //   console.log(`[FIREBASE AUTH ERROR CODE]: ${firebaseAuthError.code}`);
 
-    this.products.push(product);
-
-    return product;
-  }
-
-  async findAll(quantity: number) {
-    console.log(
-      '🚀 ~ file: products.controller.ts:27 ~ ProductsController ~ findAll ~ quantity:',
-      quantity,
-    );
-    let count = 0;
-    while (count < quantity) {
-      this.products.push({
-        id: 1,
-        name: 'Camisa',
-        description: 'Camisa preta de manga curta da Nike tamanho G',
-        color: 'Preta',
-        size: 'G',
-        brand: 'Nike',
-        price: 59.99,
-        quantity: 15,
-      });
-      count += 1;
-    }
+    //   if (firebaseAuthError.code === 'auth/email-already-in-use') {
+    //     throw new HttpException('Email already exists.', HttpStatus.CONFLICT);
+    //   }
+    // }
     return this.products;
   }
 
-  findOne(id: number) {
-    const product = this.products.find((product) => product.id === id);
+  async findAll() {
+    const productsCol = collection(this.firebaseService.fireStore, 'products');
 
-    if (!product) {
-      throw new EntityNotFoundError('Product was not found.');
-    }
+    const productsSnapshot = await getDocs(productsCol);
+    const productsList = productsSnapshot.docs.map((doc) => doc.data());
 
-    return product;
+    return productsList;
+  }
+
+  async findOne(id: number) {
+    const productsCol = collection(this.firebaseService.fireStore, 'products');
+    const productsSnapshot = await getDocs(productsCol);
+    const docRef: DocumentReference = doc(productsCol);
+    console.log(
+      '🚀 ~ file: products.service.ts:61 ~ ProductsService ~ findOne ~ docRef:',
+      docRef.parent,
+    );
+
+    // productsSnapshot
+    //   .where('email', '==', 'Coletes')
+    //   .get()
+    //   .then((querySnapshot) => {
+    //     if (!querySnapshot.empty) {
+    //       const user = querySnapshot.docs[0].data();
+    //       // rest of your code
+    //     }
+    //   });
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
-    const product = this.findOne(id);
-
-    const newProduct: Product = {
-      ...product,
-      ...updateProductDto,
-    };
-
-    const findIndex = this.products.findIndex((product) => product.id === id);
-    this.products[findIndex] = newProduct;
-
-    return newProduct;
+    // const product = this.findOne(id);
+    // const newProduct: Product = {
+    //   ...product,
+    //   ...updateProductDto,
+    // };
+    // const findIndex = this.products.findIndex((product) => product.id === id);
+    // this.products[findIndex] = newProduct;
+    // return newProduct;
   }
 
   remove(id: number) {
