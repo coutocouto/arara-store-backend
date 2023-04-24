@@ -9,6 +9,9 @@ import {
   collection,
   doc,
   DocumentReference,
+  getDoc,
+  onSnapshot,
+  setDoc,
 } from 'firebase/firestore';
 
 @Injectable()
@@ -18,35 +21,18 @@ export class ProductsService {
   constructor(private firebaseService: FirebaseService) {}
 
   async create(createProductDto: CreateProductDto) {
-    // try {
-    //   const userCredential: UserCredential =
-    //     await createUserWithEmailAndPassword(
-    //       this.firebaseService.auth,
-    //       ...createProductDto,
-    //     );
+    const docRef = collection(this.firebaseService.db, 'products');
+    console.log(
+      '🚀 ~ file: products.service.ts:25 ~ ProductsService ~ create ~ docRef:',
+      docRef,
+    );
+    // setDoc(docRef, createProductDto);
 
-    //   if (userCredential) {
-    //     const id: string = userCredential.user.uid;
-    //     const docRef: DocumentReference = doc(
-    //       this.firebaseService.usersCollection,
-    //       id,
-    //     );
-    //     await setDoc(docRef, body);
-    //   }
-    // } catch (error: unknown) {
-    //   const firebaseAuthError = error as AuthError;
-
-    //   console.log(`[FIREBASE AUTH ERROR CODE]: ${firebaseAuthError.code}`);
-
-    //   if (firebaseAuthError.code === 'auth/email-already-in-use') {
-    //     throw new HttpException('Email already exists.', HttpStatus.CONFLICT);
-    //   }
-    // }
     return this.products;
   }
 
   async findAll() {
-    const productsCol = collection(this.firebaseService.fireStore, 'products');
+    const productsCol = collection(this.firebaseService.db, 'products');
 
     const productsSnapshot = await getDocs(productsCol);
     const productsList = productsSnapshot.docs.map((doc) => doc.data());
@@ -55,23 +41,13 @@ export class ProductsService {
   }
 
   async findOne(id: number) {
-    const productsCol = collection(this.firebaseService.fireStore, 'products');
-    const productsSnapshot = await getDocs(productsCol);
-    const docRef: DocumentReference = doc(productsCol);
-    console.log(
-      '🚀 ~ file: products.service.ts:61 ~ ProductsService ~ findOne ~ docRef:',
-      docRef.parent,
-    );
+    const productsCol = collection(this.firebaseService.db, 'products');
 
-    // productsSnapshot
-    //   .where('email', '==', 'Coletes')
-    //   .get()
-    //   .then((querySnapshot) => {
-    //     if (!querySnapshot.empty) {
-    //       const user = querySnapshot.docs[0].data();
-    //       // rest of your code
-    //     }
-    //   });
+    const productsSnapshot = (await getDocs(productsCol)).query;
+    console.log(
+      '🚀 ~ file: products.service.ts:47 ~ ProductsService ~ findOne ~ productsSnapshot:',
+      productsSnapshot,
+    );
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
@@ -85,9 +61,10 @@ export class ProductsService {
     // return newProduct;
   }
 
-  remove(id: number) {
-    const findIndex = this.products.findIndex((product) => product.id === id);
-    this.products.splice(findIndex, 1);
+  async remove(id: number) {
+    const productsCol = collection(this.firebaseService.db, 'products');
+
+    const productsSnapshot = await getDocs(productsCol);
     return;
   }
 }
