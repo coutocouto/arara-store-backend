@@ -8,10 +8,10 @@ import {
   getDocs,
   collection,
   doc,
-  DocumentReference,
   getDoc,
-  onSnapshot,
-  setDoc,
+  addDoc,
+  updateDoc,
+  deleteDoc,
 } from 'firebase/firestore';
 
 @Injectable()
@@ -22,49 +22,34 @@ export class ProductsService {
 
   async create(createProductDto: CreateProductDto) {
     const docRef = collection(this.firebaseService.db, 'products');
-    console.log(
-      '🚀 ~ file: products.service.ts:25 ~ ProductsService ~ create ~ docRef:',
-      docRef,
-    );
-    // setDoc(docRef, createProductDto);
-
-    return this.products;
+    const doc = await addDoc(docRef, createProductDto);
+    return doc;
   }
 
   async findAll() {
     const productsCol = collection(this.firebaseService.db, 'products');
-
     const productsSnapshot = await getDocs(productsCol);
     const productsList = productsSnapshot.docs.map((doc) => doc.data());
 
     return productsList;
   }
 
-  async findOne(id: number) {
-    const productsCol = collection(this.firebaseService.db, 'products');
-
-    const productsSnapshot = (await getDocs(productsCol)).query;
-    console.log(
-      '🚀 ~ file: products.service.ts:47 ~ ProductsService ~ findOne ~ productsSnapshot:',
-      productsSnapshot,
-    );
+  async findOne(id: string) {
+    const productRef = doc(this.firebaseService.db, 'products', id);
+    const productSnap = await getDoc(productRef);
+    const product = productSnap.data();
+    return product;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    // const product = this.findOne(id);
-    // const newProduct: Product = {
-    //   ...product,
-    //   ...updateProductDto,
-    // };
-    // const findIndex = this.products.findIndex((product) => product.id === id);
-    // this.products[findIndex] = newProduct;
-    // return newProduct;
+  async update(id: string, updateProductDto: UpdateProductDto) {
+    const productRef = doc(this.firebaseService.db, 'products', id);
+    await updateDoc(productRef, { ...updateProductDto });
+    return; // TODO: return updated producted
   }
 
-  async remove(id: number) {
-    const productsCol = collection(this.firebaseService.db, 'products');
-
-    const productsSnapshot = await getDocs(productsCol);
-    return;
+  async remove(id: string) {
+    const productRef = doc(this.firebaseService.db, 'products', id);
+    await deleteDoc(productRef);
+    return; // TODO: return deleted producted
   }
 }
