@@ -10,19 +10,19 @@ export class ItemsService {
     private itemRepository: typeof Item,
   ) {}
 
-  async create(createItemDto: CreateItemDto) {
+  async create(createItemDto: CreateItemDto): Promise<Item> {
     return await this.itemRepository.create({ ...createItemDto });
   }
 
-  async findAll() {
+  async findAll(): Promise<Item[]> {
     return await this.itemRepository.findAll<Item>();
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<Item> {
     return await this.itemRepository.findByPk<Item>(id);
   }
 
-  async update(id: number, updateItemDto: UpdateItemDto) {
+  async update(id: number, updateItemDto: UpdateItemDto): Promise<any> {
     return await this.itemRepository.update(updateItemDto, {
       where: {
         id,
@@ -30,7 +30,7 @@ export class ItemsService {
     });
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<number> {
     return await this.itemRepository.destroy({
       where: {
         id,
