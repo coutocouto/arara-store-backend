@@ -1,4 +1,5 @@
 import { IsInt, IsString, Max, MaxLength, Min } from 'class-validator';
+import { User } from '../../users/entities/user.entity';
 
 export class CreateAddressDto {
   id: number;
@@ -26,4 +27,6 @@ export class CreateAddressDto {
 
   @IsString()
   complement: string;
+
+  user: User;
 }
