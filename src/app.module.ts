@@ -8,23 +8,19 @@ import { ItemsModule } from './modules/items/items.module';
 import { FavoritesModule } from './modules/favorites/favorites.module';
 import { AddressModule } from './modules/address/address.module';
 import { CartsModule } from './modules/carts/carts.module';
+import { DatabaseModule } from './db/database.module';
+import { SequelizeModule } from '@nestjs/sequelize';
 
 @Module({
   imports: [
     UsersModule,
-    ProductsModule,
     OrdersModule,
+    ProductsModule,
     FavoritesModule,
     AddressModule,
     CartsModule,
     ItemsModule,
-    FirestoreModule.forRoot({
-      imports: [],
-      useFactory: (configService: ConfigService) => ({
-        keyFilename: configService.get<string>('SA_KEY'),
-      }),
-      inject: [ConfigService]
-    })
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],

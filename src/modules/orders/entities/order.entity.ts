@@ -1,5 +1,6 @@
 import { Address } from '../../address/entities/address.entity';
 import { Item } from '../../items/entities/item.entity';
+import { User } from '../../users/entities/user.entity';
 
 export class Order {
   id: number;
@@ -9,4 +10,5 @@ export class Order {
   payment: string;
   date: Date;
   items: Item[];
+  user: User;
 }
