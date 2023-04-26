@@ -1,5 +1,6 @@
-import { Table, Column, Model } from 'sequelize-typescript';
+import { Table, Column, Model, HasMany } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
+import { Item } from '../../items/entities/item.entity';
 @Table
 export class Product extends Model {
   @Column({
@@ -49,4 +50,7 @@ export class Product extends Model {
 
   @Column
   image?: string;
+
+  @HasMany(() => Item)
+  item: Item;
 }

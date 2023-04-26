@@ -1,6 +1,12 @@
-import { HasOne, Column, Table } from 'sequelize-typescript';
+import {
+  BelongsTo,
+  Column,
+  Table,
+  Model,
+  ForeignKey,
+} from 'sequelize-typescript';
 import { Product } from '../../products/entities/product.entity';
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes } from 'sequelize';
 
 @Table
 export class Item extends Model {
@@ -11,7 +17,11 @@ export class Item extends Model {
   })
   id: number;
 
-  @HasOne((product: any) => product.id)
+  @ForeignKey(() => Product)
+  @Column
+  productId: number;
+
+  @BelongsTo(() => Product)
   product: Product;
 
   @Column({
