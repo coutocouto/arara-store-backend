@@ -1,84 +1,40 @@
-import { Injectable } from '@nestjs/common';
-import { EntityNotFoundError } from '../../errors/not-found.error';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 
 @Injectable()
 export class ProductsService {
-  private products: Product[] = [];
+  constructor(
+    @Inject('PRODUCTS_REPOSITORY')
+    private productRepository: typeof Product,
+  ) {}
 
-  create(createProductDto: CreateProductDto) {
-    const currentMaxId = this.products[this.products.length - 1]?.id || 0;
-
-    const id = currentMaxId + 1;
-    const product: Product = {
-      id,
-      ...createProductDto,
-    };
-
-    const productExists = this.products.find(
-      (product) => product.name === createProductDto.name,
-    );
-
-    if (productExists) {
-      return 'Product already exists';
-    }
-
-    this.products.push(product);
-
-    return product;
+  async create(createProductDto: CreateProductDto) {
+    return await this.productRepository.create({ ...createProductDto });
   }
 
-  async findAll(quantity: number) {
-    console.log(
-      '🚀 ~ file: products.controller.ts:27 ~ ProductsController ~ findAll ~ quantity:',
-      quantity,
-    );
-    let count = 0;
-    while (count < quantity) {
-      this.products.push({
-        id: 1,
-        name: 'Camisa',
-        description: 'Camisa preta de manga curta da Nike tamanho G',
-        color: 'Preta',
-        size: 'G',
-        brand: 'Nike',
-        price: 59.99,
-        quantity: 15,
-      });
-      count += 1;
-    }
-    return this.products;
+  async findAll(): Promise<Product[]> {
+    return await this.productRepository.findAll<Product>();
   }
 
-  findOne(id: number) {
-    const product = this.products.find((product) => product.id === id);
-
-    if (!product) {
-      throw new EntityNotFoundError('Product was not found.');
-    }
-
-    return product;
+  async findOne(id: number): Promise<Product> {
+    return await this.productRepository.findByPk<Product>(id);
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    const product = this.findOne(id);
-
-    const newProduct: Product = {
-      ...product,
-      ...updateProductDto,
-    };
-
-    const findIndex = this.products.findIndex((product) => product.id === id);
-    this.products[findIndex] = newProduct;
-
-    return newProduct;
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    return await this.productRepository.update(updateProductDto, {
+      where: {
+        id,
+      },
+    });
   }
 
-  remove(id: number) {
-    const findIndex = this.products.findIndex((product) => product.id === id);
-    this.products.splice(findIndex, 1);
-    return;
+  async remove(id: number): Promise<number> {
+    return await this.productRepository.destroy({
+      where: {
+        id,
+      },
+    });
   }
 }
