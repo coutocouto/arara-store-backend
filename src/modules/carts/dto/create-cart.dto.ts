@@ -1,6 +1,7 @@
+import { IsNotEmpty } from 'class-validator';
 import { Item } from '../../items/entities/item.entity';
 
 export class CreateCartDto {
-  id: number;
-  items: Item;
+  @IsNotEmpty()
+  items: Item[];
 }

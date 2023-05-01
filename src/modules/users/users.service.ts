@@ -1,66 +1,43 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import { EntityNotFoundError } from '../../errors/not-found.error';
 
 @Injectable()
 export class UsersService {
-  private users: User[] = [];
+  constructor(
+    @Inject('USERS_REPOSITORY')
+    private userRepository: typeof User,
+  ) {}
 
-  create(createUserDto: CreateUserDto) {
-    const currentMaxId = this.users[this.users.length - 1]?.id || 0;
-
-    const id = currentMaxId + 1;
-    const user: User = {
-      id,
-      ...createUserDto,
-    };
-
-    const userExists = this.users.find(
-      (user) => user.email === createUserDto.email,
-    );
-
-    if (userExists) {
-      return 'User already exists';
-    }
-
-    this.users.push(user);
-
-    return user;
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    return await this.userRepository.create({ ...createUserDto });
   }
 
-  findAll() {
-    return this.users;
+  async findAll(): Promise<User[]> {
+    return await this.userRepository.findAll<User>();
   }
 
-  findOne(id: number) {
-    const user = this.users.find((user) => user.id === id);
-
-    if (!user) {
-      throw new EntityNotFoundError('User was not found.');
-    }
-
-    return user;
+  async findOne(id: number): Promise<User> {
+    return await this.userRepository.findByPk<User>(id);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    const user = this.findOne(id);
-
-    const newUser: User = {
-      ...user,
-      ...updateUserDto,
-    };
-
-    const findIndex = this.users.findIndex((user) => user.id === id);
-    this.users[findIndex] = newUser;
-
-    return newUser;
+  async update(
+    id: number,
+    updateUserDto: UpdateUserDto,
+  ): Promise<[affectedCount: number]> {
+    return await this.userRepository.update(updateUserDto, {
+      where: {
+        id,
+      },
+    });
   }
 
-  remove(id: number) {
-    const findIndex = this.users.findIndex((user) => user.id === id);
-    this.users.splice(findIndex, 1);
-    return;
+  async remove(id: number): Promise<number> {
+    return await this.userRepository.destroy({
+      where: {
+        id,
+      },
+    });
   }
 }

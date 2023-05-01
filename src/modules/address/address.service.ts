@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { EntityNotFoundError } from '../../errors/not-found.error';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
@@ -6,60 +6,39 @@ import { Address } from './entities/address.entity';
 
 @Injectable()
 export class AddressService {
-  private address: Address[];
-  create(createAddressDto: CreateAddressDto) {
-    const currentMaxId = this.address[this.address.length - 1]?.id || 0;
+  constructor(
+    @Inject('ADDRESS_REPOSITORY')
+    private addressRepository: typeof Address,
+  ) {}
 
-    const id = currentMaxId + 1;
-    const address: Address = {
-      id,
-      ...createAddressDto,
-    };
-
-    const addressExists = this.address.find(
-      (address) => address.id === createAddressDto.id,
-    );
-
-    if (addressExists) {
-      return 'Address already exists';
-    }
-
-    this.address.push(address);
-
-    return address;
+  async create(createAddressDto: CreateAddressDto) {
+    return await this.addressRepository.create({ ...createAddressDto });
   }
 
-  findAll() {
-    return this.address;
+  async findAll(): Promise<Address[]> {
+    return await this.addressRepository.findAll<Address>();
   }
 
-  findOne(id: number) {
-    const address = this.address.find((address) => address.id === id);
-
-    if (!address) {
-      throw new EntityNotFoundError('Address was not found.');
-    }
-
-    return address;
+  async findOne(id: number): Promise<Address> {
+    return await this.addressRepository.findByPk<Address>(id);
   }
 
-  update(id: number, updateAddressDto: UpdateAddressDto) {
-    const address = this.findOne(id);
-
-    const newAddress: Address = {
-      ...address,
-      ...updateAddressDto,
-    };
-
-    const findIndex = this.address.findIndex((address) => address.id === id);
-    this.address[findIndex] = newAddress;
-
-    return newAddress;
+  async update(
+    id: number,
+    updateAddressDto: UpdateAddressDto,
+  ): Promise<[affectedCount: number]> {
+    return await this.addressRepository.update(updateAddressDto, {
+      where: {
+        id,
+      },
+    });
   }
 
-  remove(id: number) {
-    const findIndex = this.address.findIndex((address) => address.id === id);
-    this.address.splice(findIndex, 1);
-    return;
+  async remove(id: number): Promise<number> {
+    return await this.addressRepository.destroy({
+      where: {
+        id,
+      },
+    });
   }
 }
