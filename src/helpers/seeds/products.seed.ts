@@ -3,10 +3,11 @@ import { Product } from '../../modules/products/entities/product.entity';
 
 @Seeder({
   model: Product,
-  unique: ['id'],
+  unique: ['sku'],
+  runOnlyIfTableIsEmpty: true,
   containsForeignKeys: true,
 })
-export class SeedProducts implements OnSeederInit {
+export class SeedProduct implements OnSeederInit {
   run() {
     const data = [
       {
