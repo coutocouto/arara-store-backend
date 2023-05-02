@@ -8,6 +8,7 @@ import {
   Delete,
   HttpException,
   HttpStatus,
+  HttpCode,
 } from '@nestjs/common';
 import { FavoritesService } from './favorites.service';
 import { CreateFavoriteDto } from './dto/create-favorite.dto';
@@ -28,7 +29,7 @@ export class FavoritesController {
     if (!favorites.length) {
       throw new HttpException('NO CONTENT', HttpStatus.NO_CONTENT);
     }
-    return await this.favoritesService.findAll();
+    return favorites;
   }
 
   @Get(':id')
@@ -50,6 +51,7 @@ export class FavoritesController {
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id') id: string) {
     await this.findOne(id);
     return await this.favoritesService.remove(+id);

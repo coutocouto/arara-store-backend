@@ -1,5 +1,5 @@
 import { Column, HasMany, HasOne, Model, Table } from 'sequelize-typescript';
-import { Address } from '../../address/entities/address.entity';
+import { Address } from '../../addresses/entities/address.entity';
 import { Cart } from '../../carts/entities/cart.entity';
 import { Favorite } from '../../favorites/entities/favorite.entity';
 import { DataTypes } from 'sequelize';

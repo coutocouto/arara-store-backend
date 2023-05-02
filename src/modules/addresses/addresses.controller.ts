@@ -10,7 +10,7 @@ import {
   HttpCode,
   HttpException,
 } from '@nestjs/common';
-import { AddressService } from './address.service';
+import { AddressService } from './addresses.service';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
 

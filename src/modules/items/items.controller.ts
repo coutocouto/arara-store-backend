@@ -34,7 +34,7 @@ export class ItemsController {
     if (!product) {
       throw new HttpException('NOT FOUND', HttpStatus.NOT_FOUND);
     }
-    return this.itemsService.findOne(+id);
+    return product;
   }
 
   @Patch(':id')

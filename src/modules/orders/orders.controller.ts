@@ -38,7 +38,7 @@ export class OrdersController {
     if (!order) {
       throw new HttpException('NOT FOUND', HttpStatus.NOT_FOUND);
     }
-    return this.ordersService.findOne(+id);
+    return order;
   }
 
   @Patch(':id')

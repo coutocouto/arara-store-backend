@@ -54,6 +54,6 @@ export class ProductsController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id') id: number) {
     await this.findOne(id);
-    return await this.productsService.remove(id);
+    return await this.productsService.remove(+id);
   }
 }

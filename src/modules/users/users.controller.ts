@@ -29,16 +29,16 @@ export class UsersController {
     if (!users.length) {
       throw new HttpException('NO CONTENT', HttpStatus.NO_CONTENT);
     }
-    return await this.usersService.findAll();
+    return users;
   }
 
   @Get(':id')
   async findOne(@Param('id') id: number) {
-    const user = await this.usersService.findOne(id);
+    const user = await this.usersService.findOne(+id);
     if (!user) {
       throw new HttpException('NOT FOUND', HttpStatus.NOT_FOUND);
     }
-    return await this.usersService.findOne(id);
+    return user;
   }
 
   @Patch(':id')
@@ -51,6 +51,6 @@ export class UsersController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id') id: number) {
     await this.findOne(id);
-    return await this.usersService.remove(id);
+    return await this.usersService.remove(+id);
   }
 }

@@ -2,15 +2,13 @@ import {
   BelongsTo,
   Column,
   ForeignKey,
-  HasMany,
-  HasOne,
   Model,
   Table,
 } from 'sequelize-typescript';
-import { Address } from '../../address/entities/address.entity';
-import { Item } from '../../items/entities/item.entity';
+import { Address } from '../../addresses/entities/address.entity';
 import { User } from '../../users/entities/user.entity';
 import { DataTypes } from 'sequelize';
+import { Cart } from '../../carts/entities/cart.entity';
 
 @Table
 export class Order extends Model {
@@ -36,13 +34,11 @@ export class Order extends Model {
   })
   payment: string;
 
-  @Column({
-    type: DataTypes.DATE,
-  })
-  date: Date;
+  @ForeignKey(() => Cart)
+  cartId: number;
 
-  @HasMany(() => Item)
-  items: Item[];
+  @BelongsTo(() => Cart)
+  cart: Cart;
 
   @ForeignKey(() => Address)
   addressId: number;

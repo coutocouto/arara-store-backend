@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { AddressService } from './address.service';
-import { AddressController } from './address.controller';
-import { addressProviders } from './address.providers';
+import { AddressService } from './addresses.service';
+import { AddressController } from './addresses.controller';
+import { addressProviders } from './addresses.providers';
 import { DatabaseModule } from '../../db/database.module';
 
 @Module({

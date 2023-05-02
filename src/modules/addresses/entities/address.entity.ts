@@ -1,8 +1,17 @@
 import { DataTypes } from 'sequelize';
 import { User } from '../../users/entities/user.entity';
-import { Column } from 'sequelize-typescript';
+import {
+  BelongsTo,
+  Column,
+  ForeignKey,
+  HasMany,
+  Model,
+  Table,
+} from 'sequelize-typescript';
+import { Order } from '../../orders/entities/order.entity';
 
-export class Address {
+@Table
+export class Address extends Model {
   @Column({
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -45,5 +54,13 @@ export class Address {
   })
   complement?: string;
 
+  @ForeignKey(() => User)
+  @Column
+  userId: number;
+
+  @BelongsTo(() => User)
   user: User;
+
+  @HasMany(() => Order)
+  orders: Order[];
 }

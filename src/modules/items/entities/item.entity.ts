@@ -7,6 +7,7 @@ import {
 } from 'sequelize-typescript';
 import { Product } from '../../products/entities/product.entity';
 import { DataTypes } from 'sequelize';
+import { Cart } from '../../carts/entities/cart.entity';
 
 @Table
 export class Item extends Model {
@@ -23,6 +24,13 @@ export class Item extends Model {
 
   @BelongsTo(() => Product)
   product: Product;
+
+  @ForeignKey(() => Cart)
+  @Column
+  cartId: number;
+
+  @BelongsTo(() => Cart)
+  cart: Cart;
 
   @Column({
     type: DataTypes.INTEGER,

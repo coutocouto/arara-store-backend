@@ -1,6 +1,14 @@
-import { Column, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsTo,
+  Column,
+  ForeignKey,
+  HasMany,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 import { Item } from '../../items/entities/item.entity';
 import { DataTypes } from 'sequelize';
+import { User } from '../../users/entities/user.entity';
 @Table
 export class Cart extends Model {
   @Column({
@@ -10,5 +18,13 @@ export class Cart extends Model {
   })
   id: number;
 
-  items: Item;
+  @ForeignKey(() => User)
+  @Column
+  userId: number;
+
+  @BelongsTo(() => User)
+  user: User;
+
+  @HasMany(() => Item)
+  items: Item[];
 }

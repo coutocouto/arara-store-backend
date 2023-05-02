@@ -1,4 +1,11 @@
-import { IsInt, IsNotEmpty, IsString, Max, MaxLength, Min } from 'class-validator';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsString,
+  Max,
+  MaxLength,
+  Min,
+} from 'class-validator';
 import { User } from '../../users/entities/user.entity';
 
 export class CreateAddressDto {
@@ -29,9 +36,8 @@ export class CreateAddressDto {
   @IsString()
   cep: number;
 
-  @IsNotEmpty()
   @IsString()
-  complement: string;
+  complement?: string;
 
   user: User;
 }
