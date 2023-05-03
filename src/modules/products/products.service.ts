@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class ProductsService {
@@ -14,8 +15,39 @@ export class ProductsService {
     return await this.productRepository.create({ ...createProductDto });
   }
 
-  async findAll(): Promise<Product[]> {
-    return await this.productRepository.findAll<Product>();
+  async findAll({
+    searchParams,
+    page,
+    take,
+  }: {
+    searchParams: { search: string };
+    page: number;
+    take: number;
+  }): Promise<Product[]> {
+    if (searchParams.search) {
+      return await this.productRepository.findAll<Product>({
+        where: {
+          [Op.or]: {
+            name: {
+              [Op.like]: `%${searchParams.search}%`,
+            },
+            description: {
+              [Op.like]: `%${searchParams.search}%`,
+            },
+          },
+        },
+        offset: +page * +take || 10,
+        limit: +take,
+      });
+    }
+    return await this.productRepository.findAll<Product>({
+      offset: +page * +take || 10,
+      limit: +take,
+    });
+  }
+
+  async findToHomePage(): Promise<Product[]> {
+    throw new Error('Method not implemented.');
   }
 
   async findOne(id: number): Promise<Product> {

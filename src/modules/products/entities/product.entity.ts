@@ -35,7 +35,9 @@ export class Product extends Model {
   })
   brand: string;
 
-  @Column
+  @Column({
+    type: DataTypes.DECIMAL,
+  })
   price: number;
 
   @Column({
@@ -48,8 +50,16 @@ export class Product extends Model {
   })
   quantity: number;
 
-  @Column
+  @Column({
+    type: DataTypes.STRING,
+  })
   image?: string;
+
+  @Column({
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  })
+  homePage?: boolean;
 
   @HasMany(() => Item)
   item: Item;

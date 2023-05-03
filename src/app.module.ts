@@ -9,7 +9,6 @@ import { FavoritesModule } from './modules/favorites/favorites.module';
 import { AddressModule } from './modules/address/address.module';
 import { CartsModule } from './modules/carts/carts.module';
 import { DatabaseModule } from './db/database.module';
-import { SequelizeModule } from '@nestjs/sequelize';
 
 @Module({
   imports: [
