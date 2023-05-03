@@ -4,6 +4,11 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 import { Op } from 'sequelize';
 
+interface IOptionsParams {
+  search: string;
+  page: any;
+  take: any;
+}
 @Injectable()
 export class ProductsService {
   constructor(
@@ -15,33 +20,33 @@ export class ProductsService {
     return await this.productRepository.create({ ...createProductDto });
   }
 
-  async findAll({
-    searchParams,
-    page,
-    take,
-  }: {
-    searchParams: { search: string };
-    page: number;
-    take: number;
-  }): Promise<Product[]> {
-    if (searchParams.search) {
+  async findAll({ search, page, take }: IOptionsParams): Promise<Product[]> {
+    console.log(
+      '🚀 ~ file: products.service.ts:24 ~ ProductsService ~ findAll ~ take:',
+      take,
+    );
+    console.log(
+      '🚀 ~ file: products.service.ts:24 ~ ProductsService ~ findAll ~ page:',
+      page,
+    );
+    if (search) {
       return await this.productRepository.findAll<Product>({
         where: {
           [Op.or]: {
             name: {
-              [Op.like]: `%${searchParams.search}%`,
+              [Op.like]: `%${search}%`,
             },
             description: {
-              [Op.like]: `%${searchParams.search}%`,
+              [Op.like]: `%${search}%`,
             },
           },
         },
-        offset: +page * +take || 10,
+        offset: +page * +take,
         limit: +take,
       });
     }
     return await this.productRepository.findAll<Product>({
-      offset: +page * +take || 10,
+      offset: +page * +take,
       limit: +take,
     });
   }

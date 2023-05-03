@@ -27,12 +27,12 @@ export class ProductsController {
 
   @Get()
   async findAll(
-    @Query() searchParams: { search: string },
-    @Query() page: number,
-    @Query() take: number,
+    @Query('search') search: string,
+    @Query('page') page: number,
+    @Query('take') take: number,
   ): Promise<Product[]> {
     const products = await this.productsService.findAll({
-      searchParams,
+      search,
       page,
       take,
     });
