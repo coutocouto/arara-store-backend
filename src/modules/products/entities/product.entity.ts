@@ -53,4 +53,9 @@ export class Product extends Model {
 
   @HasMany(() => Item)
   item: Item;
+
+  @Column({
+    type: DataTypes.STRING,
+  })
+  sku: string;
 }

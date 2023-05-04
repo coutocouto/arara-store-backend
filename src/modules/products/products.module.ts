@@ -7,7 +7,7 @@ import { SeederModule } from 'nestjs-sequelize-seeder';
 import { SeedProduct } from '../../helpers/seeds/products.seed';
 
 @Module({
-  imports: [DatabaseModule, SeederModule.forFeature([SeedProduct])],
+  imports: [DatabaseModule],
   controllers: [ProductsController],
   providers: [ProductsService, ...productsProviders],
 })
