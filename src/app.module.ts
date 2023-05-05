@@ -9,7 +9,7 @@ import { FavoritesModule } from './modules/favorites/favorites.module';
 import { AddressModule } from './modules/address/address.module';
 import { CartsModule } from './modules/carts/carts.module';
 import { DatabaseModule } from './db/database.module';
-import { SequelizeModule } from '@nestjs/sequelize';
+import { SeederModule } from 'nestjs-sequelize-seeder';
 
 @Module({
   imports: [
@@ -21,6 +21,10 @@ import { SequelizeModule } from '@nestjs/sequelize';
     CartsModule,
     ItemsModule,
     DatabaseModule,
+    SeederModule.forRoot({
+      // Activate this if you want to run the seeders if the table is empty in the database
+      runOnlyIfTableIsEmpty: true,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

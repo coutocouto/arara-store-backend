@@ -15,7 +15,7 @@ export const databaseProviders = [
         database: 'arara-store',
       });
       sequelize.addModels([Product, Item]);
-      await sequelize.sync({ force: true });
+      await sequelize.sync();
       return sequelize;
     },
   },
