@@ -14,13 +14,6 @@ export class Product extends Model {
   @Column({
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
-  })
-  sku: string;
-
-  @Column({
-    type: DataTypes.STRING,
-    allowNull: false,
   })
   name: string;
 

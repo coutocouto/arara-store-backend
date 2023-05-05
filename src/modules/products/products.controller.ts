@@ -12,8 +12,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateProductDto } from './entities/dto/create-product.dto';
+import { UpdateProductDto } from './entities/dto/update-product.dto';
 import { Product } from './entities/product.entity';
 
 @Controller('products')
@@ -28,8 +28,8 @@ export class ProductsController {
   @Get()
   async findAll(
     @Query('search') search: string,
-    @Query('page') page: number,
-    @Query('take') take: number,
+    @Query('page') page?: number | any,
+    @Query('take') take?: number | any,
   ): Promise<Product[]> {
     const products = await this.productsService.findAll({
       search,

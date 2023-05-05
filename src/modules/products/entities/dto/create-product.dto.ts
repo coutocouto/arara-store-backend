@@ -10,10 +10,6 @@ import {
 export class CreateProductDto {
   @IsString()
   @IsNotEmpty()
-  sku: string;
-
-  @IsString()
-  @IsNotEmpty()
   name: string;
 
   @IsString()
