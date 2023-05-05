@@ -20,15 +20,11 @@ export class ProductsService {
     return await this.productRepository.create({ ...createProductDto });
   }
 
-  async findAll({ search, page, take }: IOptionsParams): Promise<Product[]> {
-    console.log(
-      '🚀 ~ file: products.service.ts:24 ~ ProductsService ~ findAll ~ take:',
-      take,
-    );
-    console.log(
-      '🚀 ~ file: products.service.ts:24 ~ ProductsService ~ findAll ~ page:',
-      page,
-    );
+  async findAll({
+    search,
+    page = 0,
+    take = 10,
+  }: IOptionsParams): Promise<Product[]> {
     if (search) {
       return await this.productRepository.findAll<Product>({
         where: {
