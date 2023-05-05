@@ -13,47 +13,56 @@ export class Product extends Model {
 
   @Column({
     type: DataTypes.STRING,
+    allowNull: false,
     unique: true,
   })
   sku: string;
 
   @Column({
     type: DataTypes.STRING,
+    allowNull: false,
   })
   name: string;
 
   @Column({
     type: DataTypes.STRING,
+    allowNull: false,
   })
   description: string;
 
   @Column({
     type: DataTypes.STRING,
+    allowNull: false,
   })
   color: string;
 
   @Column({
     type: DataTypes.STRING,
+    allowNull: false,
   })
   size: string;
 
   @Column({
     type: DataTypes.STRING,
+    allowNull: false,
   })
   brand: string;
 
   @Column({
     type: DataTypes.DECIMAL,
+    allowNull: false,
   })
   price: number;
 
   @Column({
     type: DataTypes.INTEGER,
+    defaultValue: 0,
   })
   discount?: number;
 
   @Column({
     type: DataTypes.INTEGER,
+    allowNull: false,
   })
   quantity: number;
 
@@ -62,15 +71,6 @@ export class Product extends Model {
   })
   image?: string;
 
-  @Column({
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
-  })
-  homePage?: boolean;
-
   @HasMany(() => Item)
   item: Item;
-
-  @HasMany(() => Favorite)
-  favorite: Favorite;
 }

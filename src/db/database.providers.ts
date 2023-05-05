@@ -28,7 +28,7 @@ export const databaseProviders = [
         Product,
         User,
       ]);
-      await sequelize.sync({ force: true });
+      await sequelize.sync();
       return sequelize;
     },
   },
