@@ -73,9 +73,4 @@ export class Product extends Model {
 
   @HasMany(() => Favorite)
   favorite: Favorite;
-  
-  @Column({
-    type: DataTypes.STRING,
-  })
-  sku: string;
 }
