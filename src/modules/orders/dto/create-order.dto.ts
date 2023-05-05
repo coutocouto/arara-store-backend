@@ -1,5 +1,6 @@
+import { Address } from '../../address/entities/address.entity';
+import { Item } from '../../items/entities/item.entity';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { Address } from '../../addresses/entities/address.entity';
 import { User } from '../../users/entities/user.entity';
 
 export class CreateOrderDto {
