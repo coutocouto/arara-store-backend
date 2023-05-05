@@ -1,6 +1,7 @@
 import { Table, Column, Model, HasMany } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { Item } from '../../items/entities/item.entity';
+import { Favorite } from '../../favorites/entities/favorite.entity';
 @Table
 export class Product extends Model {
   @Column({
@@ -9,6 +10,12 @@ export class Product extends Model {
     autoIncrement: true,
   })
   id: number;
+
+  @Column({
+    type: DataTypes.STRING,
+    unique: true,
+  })
+  sku: string;
 
   @Column({
     type: DataTypes.STRING,
@@ -63,4 +70,12 @@ export class Product extends Model {
 
   @HasMany(() => Item)
   item: Item;
+
+  @HasMany(() => Favorite)
+  favorite: Favorite;
+  
+  @Column({
+    type: DataTypes.STRING,
+  })
+  sku: string;
 }

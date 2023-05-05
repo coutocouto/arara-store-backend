@@ -6,6 +6,9 @@ import {
   Patch,
   Param,
   Delete,
+  HttpStatus,
+  HttpCode,
+  HttpException,
 } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import { CreateCartDto } from './dto/create-cart.dto';
@@ -16,27 +19,38 @@ export class CartsController {
   constructor(private readonly cartsService: CartsService) {}
 
   @Post()
-  create(@Body() createCartDto: CreateCartDto) {
-    return this.cartsService.create(createCartDto);
+  async create(@Body() createCartDto: CreateCartDto) {
+    return await this.cartsService.create(createCartDto);
   }
 
   @Get()
-  findAll() {
-    return this.cartsService.findAll();
+  async findAll() {
+    const carts = await this.cartsService.findAll();
+    if (!carts.length) {
+      throw new HttpException('NO CONTENT', HttpStatus.NO_CONTENT);
+    }
+    return carts;
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cartsService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const cart = await this.cartsService.findOne(+id);
+    if (!cart) {
+      throw new HttpException('NOT FOUND', HttpStatus.NOT_FOUND);
+    }
+    return cart;
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCartDto: UpdateCartDto) {
-    return this.cartsService.update(+id, updateCartDto);
+  async update(@Param('id') id: string, @Body() updateCartDto: UpdateCartDto) {
+    await this.findOne(id);
+    return await this.cartsService.update(+id, updateCartDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cartsService.remove(+id);
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async remove(@Param('id') id: string) {
+    await this.findOne(id);
+    return await this.cartsService.remove(+id);
   }
 }
