@@ -1,7 +1,6 @@
 import { Table, Column, Model, HasMany } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { Item } from '../../items/entities/item.entity';
-import { Favorite } from '../../favorites/entities/favorite.entity';
 @Table
 export class Product extends Model {
   @Column({
