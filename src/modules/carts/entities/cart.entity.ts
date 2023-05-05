@@ -6,9 +6,8 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { Item } from '../../items/entities/item.entity';
+import { Item, User } from '../../index.entities';
 import { DataTypes } from 'sequelize';
-import { User } from '../../users/entities/user.entity';
 @Table
 export class Cart extends Model {
   @Column({

@@ -1,9 +1,6 @@
 import { Column, HasMany, HasOne, Model, Table } from 'sequelize-typescript';
-import { Address } from '../../addresses/entities/address.entity';
-import { Cart } from '../../carts/entities/cart.entity';
-import { Favorite } from '../../favorites/entities/favorite.entity';
+import { Address, Cart, Favorite, Order } from '../../index.entities';
 import { DataTypes } from 'sequelize';
-import { Order } from '../../orders/entities/order.entity';
 
 @Table
 export class User extends Model {
