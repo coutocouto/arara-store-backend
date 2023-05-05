@@ -19,7 +19,10 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "seed:all": "sequelize-cli db:seed:all"
+    "db:seed:all": "sequelize-cli db:seed:all",
+    "db:migrate": "sequelize-cli db:migrate",
+    "db:create": "sequelize-cli db:create",
+    "db:drop": "sequelize-cli db:drop"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
