@@ -22,7 +22,10 @@ export class ProductsService {
     return await this.productRepository.findByPk<Product>(id);
   }
 
-  async update(id: number, updateProductDto: UpdateProductDto) {
+  async update(
+    id: number,
+    updateProductDto: UpdateProductDto,
+  ): Promise<[affectedCount: number]> {
     return await this.productRepository.update(updateProductDto, {
       where: {
         id,

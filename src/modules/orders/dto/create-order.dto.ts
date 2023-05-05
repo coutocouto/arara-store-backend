@@ -1,14 +1,23 @@
-import { Address } from '../../address/entities/address.entity';
-import { Item } from '../../items/entities/item.entity';
+import { IsNotEmpty, IsString } from 'class-validator';
+import { Address } from '../../addresses/entities/address.entity';
 import { User } from '../../users/entities/user.entity';
 
 export class CreateOrderDto {
-  id: number;
-  address: Address;
+  @IsString()
+  @IsNotEmpty()
   statusPayment: string;
+
+  @IsString()
+  @IsNotEmpty()
   statusOrder: string;
+
+  @IsString()
+  @IsNotEmpty()
   payment: string;
-  date: Date;
-  items: Item[];
+
+  @IsNotEmpty()
+  address: Address;
+
+  @IsNotEmpty()
   user: User;
 }
