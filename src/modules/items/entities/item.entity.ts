@@ -5,9 +5,8 @@ import {
   Model,
   ForeignKey,
 } from 'sequelize-typescript';
-import { Product } from '../../products/entities/product.entity';
+import { Cart, Product } from '../../index.entities';
 import { DataTypes } from 'sequelize';
-import { Cart } from '../../carts/entities/cart.entity';
 
 @Table
 export class Item extends Model {

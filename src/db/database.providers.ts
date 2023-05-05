@@ -1,11 +1,13 @@
 import { Sequelize } from 'sequelize-typescript';
-import { Product } from '../modules/products/entities/product.entity';
-import { Item } from '../modules/items/entities/item.entity';
-import { Address } from '../modules/addresses/entities/address.entity';
-import { Cart } from '../modules/carts/entities/cart.entity';
-import { Favorite } from '../modules/favorites/entities/favorite.entity';
-import { Order } from '../modules/orders/entities/order.entity';
-import { User } from '../modules/users/entities/user.entity';
+import {
+  Address,
+  Cart,
+  Favorite,
+  Item,
+  Order,
+  Product,
+  User,
+} from '../modules/index.entities';
 
 export const databaseProviders = [
   {

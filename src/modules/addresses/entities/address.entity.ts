@@ -1,5 +1,4 @@
 import { DataTypes } from 'sequelize';
-import { User } from '../../users/entities/user.entity';
 import {
   BelongsTo,
   Column,
@@ -8,7 +7,7 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { Order } from '../../orders/entities/order.entity';
+import { Order, User } from '../../index.entities';
 
 @Table
 export class Address extends Model {

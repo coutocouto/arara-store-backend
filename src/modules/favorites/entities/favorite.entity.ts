@@ -6,8 +6,7 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { User } from '../../users/entities/user.entity';
-import { Product } from '../../products/entities/product.entity';
+import { Product, User } from '../../index.entities';
 
 @Table
 export class Favorite extends Model {
