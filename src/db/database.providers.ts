@@ -3,6 +3,7 @@ import {
   Address,
   Cart,
   Favorite,
+  Image,
   Item,
   Order,
   Product,
@@ -25,11 +26,13 @@ export const databaseProviders = [
         Address,
         Cart,
         Favorite,
+        Image,
         Item,
         Order,
         Product,
         User,
       ]);
+      // await sequelize.sync();
       return sequelize;
     },
   },
