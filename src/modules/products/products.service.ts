@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateProductDto } from './entities/dto/create-product.dto';
-import { UpdateProductDto } from './entities/dto/update-product.dto';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 import { Op } from 'sequelize';
 
