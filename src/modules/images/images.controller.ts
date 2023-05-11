@@ -16,8 +16,8 @@ import { UpdateImageDto } from './dto/update-image.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
-// @ApiBearerAuth()
-// @UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('Images')
 export class ImagesController {
   constructor(private readonly imagesService: ImagesService) {}
