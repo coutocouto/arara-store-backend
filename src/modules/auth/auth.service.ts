@@ -15,6 +15,11 @@ export class AuthService {
     password,
   }: SingInDto): Promise<{ accessToken: string }> {
     const user = await this.usersService.findOneByEmail(email);
+    
+    if(!user) {
+      throw new UnauthorizedException('User not found');
+    }
+    
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
