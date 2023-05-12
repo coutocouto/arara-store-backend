@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
+
 import {
   AddressModule,
   CartsModule,
@@ -26,6 +28,9 @@ import { DatabaseModule } from './db/database.module';
     UsersModule,
     AuthModule,
     DatabaseModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    })
   ],
   controllers: [AppController],
   providers: [AppService],

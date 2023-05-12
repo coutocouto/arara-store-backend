@@ -17,8 +17,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -28,6 +26,9 @@ export class UsersController {
     return await this.usersService.create(createUserDto);
   }
 
+  
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @Get()
   async findAll() {
     const users = await this.usersService.findAll();
@@ -36,7 +37,10 @@ export class UsersController {
     }
     return users;
   }
-
+  
+  
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: number) {
     const user = await this.usersService.findOne(+id);
@@ -46,12 +50,17 @@ export class UsersController {
     return user;
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     await this.findOne(id);
     return await this.usersService.update(id, updateUserDto);
   }
 
+  
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id') id: number) {
