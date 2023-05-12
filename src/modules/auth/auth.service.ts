@@ -13,7 +13,7 @@ export class AuthService {
   async signIn({
     email,
     password,
-  }: SingInDto): Promise<{ access_token: string }> {
+  }: SingInDto): Promise<{ accessToken: string }> {
     const user = await this.usersService.findOneByEmail(email);
     const isMatch = await bcrypt.compare(password, user.password);
 
@@ -22,7 +22,7 @@ export class AuthService {
     }
     const payload = { email: email, sub: user.id };
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      accessToken: await this.jwtService.signAsync(payload),
     };
   }
 }
