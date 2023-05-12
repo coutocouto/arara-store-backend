@@ -6,6 +6,7 @@ import {
   MaxLength,
   Min,
 } from 'class-validator';
+import { Image } from '../../index.entities';
 
 export class CreateProductDto {
   @IsString()
@@ -45,4 +46,7 @@ export class CreateProductDto {
   @Max(999)
   @IsNotEmpty()
   quantity: number;
+
+  @IsNotEmpty()
+  images: Array<string>;
 }
