@@ -9,11 +9,16 @@ import {
   HttpStatus,
   HttpCode,
   HttpException,
+  UseGuards,
 } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('carts')
 export class CartsController {
   constructor(private readonly cartsService: CartsService) {}

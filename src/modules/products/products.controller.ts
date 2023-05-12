@@ -10,12 +10,17 @@ import {
   HttpStatus,
   HttpException,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { CreateProductDto } from './entities/dto/create-product.dto';
-import { UpdateProductDto } from './entities/dto/update-product.dto';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}

@@ -18,6 +18,7 @@ export class User extends Model {
 
   @Column({
     type: DataTypes.STRING,
+    unique: true,
   })
   email: string;
 

@@ -1,8 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateProductDto } from './entities/dto/create-product.dto';
-import { UpdateProductDto } from './entities/dto/update-product.dto';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 import { Op } from 'sequelize';
+import { Image } from '../index.entities';
+import { CreateImageDto } from '../images/dto/create-image.dto';
 
 interface IOptionsParams {
   search: string;
@@ -13,11 +15,20 @@ interface IOptionsParams {
 export class ProductsService {
   constructor(
     @Inject('PRODUCTS_REPOSITORY')
-    private productRepository: typeof Product,
+    private productsRepository: typeof Product,
+    @Inject('IMAGES_REPOSITORY')
+    private imagesRepository: typeof Image,
   ) {}
 
   async create(createProductDto: CreateProductDto) {
-    return await this.productRepository.create({ ...createProductDto });
+    const product = await this.productsRepository.create({
+      ...createProductDto,
+    });
+    await this.createImages({
+      productId: product.id,
+      images: createProductDto.images,
+    });
+    return product;
   }
 
   async findAll({
@@ -26,7 +37,7 @@ export class ProductsService {
     take = 10,
   }: IOptionsParams): Promise<Product[]> {
     if (search) {
-      return await this.productRepository.findAll<Product>({
+      return await this.productsRepository.findAll<Product>({
         where: {
           [Op.or]: {
             name: {
@@ -41,7 +52,8 @@ export class ProductsService {
         limit: +take,
       });
     }
-    return await this.productRepository.findAll<Product>({
+    return await this.productsRepository.findAll<Product>({
+      attributes: ['id', 'name', 'images'],
       offset: +page * +take,
       limit: +take,
     });
@@ -52,14 +64,16 @@ export class ProductsService {
   }
 
   async findOne(id: number): Promise<Product> {
-    return await this.productRepository.findByPk<Product>(id);
+    return await this.productsRepository.findByPk<Product>(id, {
+      include: ['images'],
+    });
   }
 
   async update(
     id: number,
     updateProductDto: UpdateProductDto,
   ): Promise<[affectedCount: number]> {
-    return await this.productRepository.update(updateProductDto, {
+    return await this.productsRepository.update(updateProductDto, {
       where: {
         id,
       },
@@ -67,9 +81,28 @@ export class ProductsService {
   }
 
   async remove(id: number): Promise<number> {
-    return await this.productRepository.destroy({
+    const deleted = await this.productsRepository.destroy({
       where: {
         id,
+      },
+    });
+    if (deleted > 0) {
+      await this.removeImages(id);
+    }
+    return deleted;
+  }
+
+  async createImages({ productId, images }: CreateImageDto) {
+    const createImageDto = images.map((imageUrl: string) => {
+      return { productId, imageUrl };
+    });
+    return await this.imagesRepository.bulkCreate(createImageDto);
+  }
+
+  async removeImages(productId: number): Promise<number> {
+    return await this.imagesRepository.destroy({
+      where: {
+        productId,
       },
     });
   }
