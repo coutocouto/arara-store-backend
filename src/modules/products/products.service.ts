@@ -48,12 +48,13 @@ export class ProductsService {
             },
           },
         },
+        include: ['images'],
         offset: +page * +take,
         limit: +take,
       });
     }
     return await this.productsRepository.findAll<Product>({
-      attributes: ['id', 'name', 'images'],
+      include: ['images'],
       offset: +page * +take,
       limit: +take,
     });
