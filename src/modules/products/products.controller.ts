@@ -19,8 +19,7 @@ import { Product } from './entities/product.entity';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
-// @ApiBearerAuth()
-// @UseGuards(JwtAuthGuard)
+
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
@@ -30,6 +29,7 @@ export class ProductsController {
     return await this.productsService.create(createProductDto);
   }
 
+  
   @Get()
   async findAll(
     @Query('search') search: string,
@@ -52,6 +52,8 @@ export class ProductsController {
     return await this.productsService.findToHomePage();
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: number) {
     const product = await this.productsService.findOne(+id);
