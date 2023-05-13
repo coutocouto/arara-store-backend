@@ -26,7 +26,6 @@ export class UsersController {
     return await this.usersService.create(createUserDto);
   }
 
-  
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get()
@@ -37,8 +36,7 @@ export class UsersController {
     }
     return users;
   }
-  
-  
+
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get(':id')
@@ -58,7 +56,6 @@ export class UsersController {
     return await this.usersService.update(id, updateUserDto);
   }
 
-  
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
