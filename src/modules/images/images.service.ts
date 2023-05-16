@@ -20,11 +20,14 @@ export class ImagesService {
       where: {
         productId,
       },
+      include: ['product'],
     });
   }
 
   async findOne(id: number): Promise<Image> {
-    return await this.imagesRepository.findByPk<Image>(id);
+    return await this.imagesRepository.findByPk<Image>(id, {
+      include: ['product'],
+    });
   }
 
   async remove(id: number): Promise<number> {

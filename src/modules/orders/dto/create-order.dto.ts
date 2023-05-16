@@ -1,6 +1,4 @@
-import { Address } from '../../addresses/entities/address.entity';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { User } from '../../users/entities/user.entity';
 
 export class CreateOrderDto {
   @IsString()
@@ -16,8 +14,11 @@ export class CreateOrderDto {
   payment: string;
 
   @IsNotEmpty()
-  address: Address;
+  userId: number;
 
   @IsNotEmpty()
-  user: User;
+  cartId: number;
+
+  @IsNotEmpty()
+  addressId: number;
 }

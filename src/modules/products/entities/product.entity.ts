@@ -63,5 +63,5 @@ export class Product extends Model {
   images: Image[];
 
   @HasMany(() => Item)
-  item: Item;
+  items: Item[];
 }

@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { EntityNotFoundError } from '../../errors/not-found.error';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { Cart } from './entities/cart.entity';
@@ -15,11 +14,15 @@ export class CartsService {
   }
 
   async findAll(): Promise<Cart[]> {
-    return await this.cartRepository.findAll<Cart>();
+    return await this.cartRepository.findAll<Cart>({
+      include: ['items', 'user'],
+    });
   }
 
   async findOne(id: number): Promise<Cart> {
-    return await this.cartRepository.findByPk<Cart>(id);
+    return await this.cartRepository.findByPk<Cart>(id, {
+      include: ['items', 'user'],
+    });
   }
 
   async update(

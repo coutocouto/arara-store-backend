@@ -15,11 +15,15 @@ export class FavoritesService {
   }
 
   async findAll(): Promise<Favorite[]> {
-    return await this.favoritesRepository.findAll<Favorite>();
+    return await this.favoritesRepository.findAll<Favorite>({
+      include: ['product', 'user'],
+    });
   }
 
   async findOne(id: number): Promise<Favorite> {
-    return await this.favoritesRepository.findByPk<Favorite>(id);
+    return await this.favoritesRepository.findByPk<Favorite>(id, {
+      include: ['product', 'user'],
+    });
   }
 
   async update(

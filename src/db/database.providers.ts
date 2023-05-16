@@ -6,6 +6,7 @@ import {
   Image,
   Item,
   Order,
+  OrderItem,
   Product,
   User,
 } from '../modules/index.entities';
@@ -29,6 +30,7 @@ export const databaseProviders = [
         Image,
         Item,
         Order,
+        OrderItem,
         Product,
         User,
       ]);

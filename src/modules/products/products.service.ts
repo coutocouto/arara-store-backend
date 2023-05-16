@@ -48,13 +48,13 @@ export class ProductsService {
             },
           },
         },
-        include: ['images'],
+        include: ['images', 'items'],
         offset: +page * +take,
         limit: +take,
       });
     }
     return await this.productsRepository.findAll<Product>({
-      include: ['images'],
+      include: ['images', 'items'],
       offset: +page * +take,
       limit: +take,
     });
@@ -66,7 +66,7 @@ export class ProductsService {
 
   async findOne(id: number): Promise<Product> {
     return await this.productsRepository.findByPk<Product>(id, {
-      include: ['images'],
+      include: ['images', 'items'],
     });
   }
 
