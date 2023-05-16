@@ -44,9 +44,9 @@ export class Address extends Model {
   number: number;
 
   @Column({
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
   })
-  cep: number;
+  cep: string;
 
   @Column({
     type: DataTypes.STRING,

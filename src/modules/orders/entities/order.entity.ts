@@ -2,11 +2,13 @@ import {
   BelongsTo,
   Column,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { Address, Cart, User } from '../../index.entities';
+import { OrderItem } from './orderItem.entity';
 
 @Table
 export class Order extends Model {
@@ -39,14 +41,17 @@ export class Order extends Model {
   cart: Cart;
 
   @ForeignKey(() => Address)
-  addressId: number;
+  addressId?: number;
 
   @BelongsTo(() => Address)
-  address: Address;
+  address?: Address;
 
   @ForeignKey(() => User)
   userId: number;
 
   @BelongsTo(() => User)
   user: User;
+
+  @HasMany(() => OrderItem)
+  orderItems?: OrderItem;
 }

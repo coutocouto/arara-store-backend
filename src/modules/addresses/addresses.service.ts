@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { EntityNotFoundError } from '../../errors/not-found.error';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
 import { Address } from './entities/address.entity';
@@ -16,11 +15,15 @@ export class AddressService {
   }
 
   async findAll(): Promise<Address[]> {
-    return await this.addressRepository.findAll<Address>();
+    return await this.addressRepository.findAll<Address>({
+      include: ['orders', 'user'],
+    });
   }
 
   async findOne(id: number): Promise<Address> {
-    return await this.addressRepository.findByPk<Address>(id);
+    return await this.addressRepository.findByPk<Address>(id, {
+      include: ['orders', 'user'],
+    });
   }
 
   async update(

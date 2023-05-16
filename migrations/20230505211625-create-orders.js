@@ -34,6 +34,7 @@ module.exports = {
         },
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE',
+        allowNull: true,
       },
       cartId: {
         type: Sequelize.INTEGER,

@@ -15,11 +15,15 @@ export class ItemsService {
   }
 
   async findAll(): Promise<Item[]> {
-    return await this.itemRepository.findAll<Item>();
+    return await this.itemRepository.findAll<Item>({
+      include: ['product', 'cart'],
+    });
   }
 
   async findOne(id: number): Promise<Item> {
-    return await this.itemRepository.findByPk<Item>(id);
+    return await this.itemRepository.findByPk<Item>(id, {
+      include: ['product', 'cart'],
+    });
   }
 
   async update(id: number, updateItemDto: UpdateItemDto): Promise<any> {

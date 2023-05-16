@@ -20,11 +20,15 @@ export class UsersService {
   }
 
   async findAll(): Promise<User[]> {
-    return await this.userRepository.findAll<User>();
+    return await this.userRepository.findAll<User>({
+      include: ['addresses', 'cart', 'favorite', 'orders'],
+    });
   }
 
   async findOne(id: number): Promise<User> {
-    return await this.userRepository.findByPk<User>(id);
+    return await this.userRepository.findByPk<User>(id, {
+      include: ['addresses', 'cart', 'favorite', 'orders'],
+    });
   }
 
   async findOneByEmail(email: string) {

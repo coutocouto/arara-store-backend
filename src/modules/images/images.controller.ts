@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   HttpException,
@@ -12,7 +11,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ImagesService } from './images.service';
-import { UpdateImageDto } from './dto/update-image.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 

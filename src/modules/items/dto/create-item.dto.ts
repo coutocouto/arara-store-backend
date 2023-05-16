@@ -11,5 +11,11 @@ export class CreateItemDto {
   @Min(0)
   @Max(9999999)
   @IsNotEmpty()
+  cartId: number;
+
+  @IsInt()
+  @Min(0)
+  @Max(9999999)
+  @IsNotEmpty()
   quantity: number;
 }

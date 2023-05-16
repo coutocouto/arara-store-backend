@@ -42,5 +42,5 @@ export class User extends Model {
   favorite: Favorite;
 
   @HasMany(() => Order)
-  order: Order[];
+  orders: Order[];
 }

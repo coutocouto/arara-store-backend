@@ -37,6 +37,14 @@ module.exports = {
         type: Sequelize.INTEGER,
         defaultValue: 0,
       },
+      inherited: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Products',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+      },
       quantity: {
         type: Sequelize.INTEGER,
         allowNull: false,
