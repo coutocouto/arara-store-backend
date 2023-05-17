@@ -34,7 +34,7 @@ export class ProductsController {
   async createDiscount(
     @Param('productId') productId: number,
     @Param('discount') discount: number,
-  ): Promise<Product> {
+  ): Promise<[Product, boolean]> {
     return await this.productsService.createDiscount({
       id: productId,
       discount,

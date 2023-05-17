@@ -37,7 +37,10 @@ export class ProductsService {
     return product;
   }
 
-  async createDiscount({ id, discount }: IDiscountParams): Promise<Product> {
+  async createDiscount({
+    id,
+    discount,
+  }: IDiscountParams): Promise<[Product, boolean]> {
     const { dataValues: product } = await this.findOne(+id);
 
     if (!product.disabled) {
@@ -62,8 +65,13 @@ export class ProductsService {
     delete product.createdAt;
     delete product.updatedAt;
 
-    return await this.productsRepository.create({
-      ...product,
+    return await this.productsRepository.findOrCreate({
+      where: {
+        [Op.and]: [{ inherited: id }, { discount }],
+      },
+      defaults: {
+        ...product,
+      },
     });
   }
 
