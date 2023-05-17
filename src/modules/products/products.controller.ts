@@ -30,16 +30,36 @@ export class ProductsController {
     return await this.productsService.create(createProductDto);
   }
 
+  @Post('/:productId/discount/:discount')
+  async createDiscount(
+    @Param('productId') productId: number,
+    @Param('discount') discount: number,
+  ): Promise<Product> {
+    return await this.productsService.createDiscount({
+      id: productId,
+      discount,
+    });
+  }
+
+  @Patch('/:productId/disable')
+  async disableDiscount(
+    @Param('productId') productId: number,
+  ): Promise<[affectedCount: number]> {
+    return await this.productsService.disableDiscount(productId);
+  }
+
   @Get()
   async findAll(
     @Query('search') search: string,
     @Query('page') page?: number | any,
     @Query('take') take?: number | any,
+    @Query('disabled') disabled?: boolean,
   ): Promise<Product[]> {
     const products = await this.productsService.findAll({
       search,
       page,
       take,
+      disabled,
     });
     if (!products.length) {
       throw new HttpException('NO CONTENT', HttpStatus.NO_CONTENT);
@@ -53,7 +73,7 @@ export class ProductsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number) {
+  async findOne(@Param('id') id: number): Promise<Product> {
     const product = await this.productsService.findOne(+id);
     if (!product) {
       throw new HttpException('NOT FOUND', HttpStatus.NOT_FOUND);
@@ -67,7 +87,7 @@ export class ProductsController {
   async update(
     @Param('id') id: number,
     @Body() updateProductDto: UpdateProductDto,
-  ) {
+  ): Promise<[affectedCount: number]> {
     await this.findOne(id);
     return await this.productsService.update(id, updateProductDto);
   }
@@ -76,7 +96,7 @@ export class ProductsController {
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param('id') id: number) {
+  async remove(@Param('id') id: number): Promise<number> {
     await this.findOne(id);
     return await this.productsService.remove(+id);
   }

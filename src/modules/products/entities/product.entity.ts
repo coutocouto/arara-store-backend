@@ -1,4 +1,10 @@
-import { Table, Column, Model, HasMany } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  HasMany,
+  ForeignKey,
+} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { Item } from '../../items/entities/item.entity';
 import { Image } from '../../index.entities';
@@ -52,6 +58,19 @@ export class Product extends Model {
     defaultValue: 0,
   })
   discount?: number;
+
+  @ForeignKey(() => Product)
+  @Column({
+    type: DataTypes.INTEGER,
+    defaultValue: null,
+  })
+  inherited?: number;
+
+  @Column({
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  })
+  disabled: boolean;
 
   @Column({
     type: DataTypes.INTEGER,

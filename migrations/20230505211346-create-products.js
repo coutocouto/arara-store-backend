@@ -45,6 +45,11 @@ module.exports = {
         },
         onUpdate: 'CASCADE',
       },
+      disabled: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
       quantity: {
         type: Sequelize.INTEGER,
         allowNull: false,
