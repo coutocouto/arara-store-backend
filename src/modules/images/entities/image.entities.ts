@@ -18,7 +18,7 @@ export class Image extends Model {
   id: number;
 
   @Column({
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
   })
   imageUrl: string;
 
