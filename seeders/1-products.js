@@ -5,6 +5,7 @@ module.exports = {
   up: (queryInterface) => {
     return queryInterface.bulkInsert('Products', [
       {
+        id: 1,
         name: 'Camiseta básica',
         description: 'Camiseta básica de algodão',
         color: 'Branco',
@@ -17,6 +18,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 2,
         name: 'Jaqueta marrom',
         description: 'Jaqueta de couro sintético marrom',
         color: 'Marrom',
@@ -29,6 +31,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 3,
         name: 'Camiseta verde',
         description: 'Camiseta básica de algodão',
         color: 'Verde',
@@ -41,6 +44,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 4,
         name: 'Moletom básico',
         description: 'Moletom básico de algodão',
         color: 'Cinza',
@@ -53,6 +57,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 5,
         name: 'Camisa preta',
         description: 'Camisa social preta',
         color: 'Preto',
@@ -65,6 +70,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 6,
         name: 'Vestido branco',
         description: 'Vestido branco de algodão',
         color: 'Branco',
@@ -77,6 +83,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 7,
         name: 'Moletom Feminino Preta',
         description: 'Moletom feminino preta com capuz',
         color: 'Preto',
@@ -89,6 +96,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 8,
         name: 'Moletom Feminino Rosa',
         description: 'Moletom feminino rosa claro com estampa "Confident"',
         color: 'Rosa',
@@ -101,6 +109,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 9,
         name: 'Moletom Cinza',
         description: 'Moletom cinza simples com capuz',
         color: 'Cinza',
@@ -113,6 +122,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 10,
         name: 'Moletom Feminino Preta Estilosa',
         description:
           'Moletom feminino preta estilosa com capuz e estampa nas mangas',
@@ -126,6 +136,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 11,
         name: 'Moletom Feminino Vermelha',
         description: 'Moletom feminino vermelho com estampa "New York"',
         color: 'Vermelho',
