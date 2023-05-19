@@ -48,7 +48,6 @@ export class ProductsService {
       await this.update(id, product);
     }
 
-    // DESABILITA OUTROS DESCONTOS (NÃO LEMBRO SE VAI PODE TER MAIS DE UM DESCONTO ATIVO, SE FOR PODER E SÓ TIRAR ESSE BLOCO)
     this.productsRepository.update(
       { disabled: true },
       {
@@ -175,7 +174,6 @@ export class ProductsService {
   }
 
   private async enableOrDisableFather(product: Product): Promise<boolean> {
-    // PARA CASO DE INCONSISTÊNCIA NOS DADOS EU VALIDO
     const { count } = await this.productsRepository.findAndCountAll({
       where: {
         [Op.and]: [{ inherited: product.inherited }, { disabled: false }],
