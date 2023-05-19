@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsInt,
   IsNotEmpty,
   IsString,
@@ -40,6 +41,14 @@ export class CreateProductDto {
   @Min(0)
   @Max(9999999)
   discount?: number;
+
+  @IsInt()
+  @Min(0)
+  @Max(9999999)
+  inherited?: number;
+
+  @IsBoolean()
+  disabled?: boolean;
 
   @IsInt()
   @Min(0)
