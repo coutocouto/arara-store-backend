@@ -24,7 +24,7 @@ export class ProductsService {
     private productsRepository: typeof Product,
     @Inject('IMAGES_REPOSITORY')
     private imagesRepository: typeof Image,
-  ) {}
+  ) { }
 
   async create(createProductDto: CreateProductDto) {
     const product = await this.productsRepository.create({
@@ -94,7 +94,7 @@ export class ProductsService {
             },
           },
         },
-        include: ['images', 'items'],
+        include: ['images'],
         offset: +page * +take,
         limit: +take,
       });
@@ -103,7 +103,7 @@ export class ProductsService {
       where: {
         disabled,
       },
-      include: ['images', 'items'],
+      include: ['images'],
       offset: +page * +take,
       limit: +take,
     });
@@ -115,19 +115,25 @@ export class ProductsService {
 
   async findOne(id: number): Promise<Product> {
     return await this.productsRepository.findByPk<Product>(id, {
-      include: ['images', 'items'],
+      include: ['images'],
     });
   }
 
   async update(
     id: number,
     updateProductDto: UpdateProductDto,
-  ): Promise<[affectedCount: number]> {
-    return await this.productsRepository.update(updateProductDto, {
-      where: {
-        id,
+  ): Promise<Product> {
+    await this.productsRepository.update(
+      {
+        disabled: true,
       },
-    });
+      {
+        where: {
+          id,
+        },
+      },
+    );
+    return this.productsRepository.create({ ...updateProductDto });
   }
 
   async disableDiscount(id: number): Promise<[affectedCount: number]> {
