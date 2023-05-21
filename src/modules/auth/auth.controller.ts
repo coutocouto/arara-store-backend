@@ -4,11 +4,11 @@ import { SingInDto } from './dto/login-user.dto';
 
 @Controller('login')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   @HttpCode(HttpStatus.OK)
   @Post()
   async signIn(@Body() signInDto: SingInDto | any) {
-     return await this.authService.signIn(signInDto);
+    return await this.authService.signIn(signInDto);
   }
 }
