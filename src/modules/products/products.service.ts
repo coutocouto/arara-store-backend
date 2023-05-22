@@ -24,7 +24,7 @@ export class ProductsService {
     private productsRepository: typeof Product,
     @Inject('IMAGES_REPOSITORY')
     private imagesRepository: typeof Image,
-  ) {}
+  ) { }
 
   async create(createProductDto: CreateProductDto) {
     const product = await this.productsRepository.create({
