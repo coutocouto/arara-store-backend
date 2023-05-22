@@ -1,9 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
-import { Cart } from './entities/cart.entity';
 import { Op } from 'sequelize';
-import { Item, Product } from '../index.entities';
+import { Item, Product, Cart, Image } from '../index.entities';
 
 @Injectable()
 export class CartsService {
@@ -27,6 +26,11 @@ export class CartsService {
           include: [
             {
               model: Product,
+              include: [
+                {
+                  model: Image,
+                },
+              ],
             },
           ],
         },
