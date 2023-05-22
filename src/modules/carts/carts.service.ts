@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
+import { PrecoPrazoResponse, calcularPrecoPrazo } from 'correios-brasil/dist';
 import { Op } from 'sequelize';
 import { Item, Product, Cart, Image } from '../index.entities';
 
@@ -58,5 +59,24 @@ export class CartsService {
         id,
       },
     });
+  }
+
+  async shipping({ cep }: { cep: string }): Promise<PrecoPrazoResponse[]> {
+    console.log(
+      '🚀 ~ file: carts.service.ts:50 ~ CartsService ~ shipping ~ cep:',
+      cep,
+    );
+    const args = {
+      sCepOrigem: '03694000',
+      sCepDestino: `${cep}`,
+      nVlPeso: '1',
+      nCdFormato: '1',
+      nVlComprimento: '35',
+      nVlAltura: '2',
+      nVlLargura: '25',
+      nCdServico: ['04014 ', '04510'], // Array com os códigos de serviço atualmente pac e sedex
+      nVlDiametro: '0',
+    };
+    return await calcularPrecoPrazo(args);
   }
 }
