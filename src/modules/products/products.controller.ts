@@ -21,7 +21,7 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(private readonly productsService: ProductsService) { }
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
@@ -87,7 +87,7 @@ export class ProductsController {
   async update(
     @Param('id') id: number,
     @Body() updateProductDto: UpdateProductDto,
-  ): Promise<[affectedCount: number]> {
+  ): Promise<Product> {
     await this.findOne(id);
     return await this.productsService.update(id, updateProductDto);
   }

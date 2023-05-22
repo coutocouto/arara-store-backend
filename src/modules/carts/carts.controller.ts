@@ -42,9 +42,9 @@ export class CartsController {
     return carts;
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const cart = await this.cartsService.findOne(+id);
+  @Get(':userId')
+  async findOne(@Param('userId') userId: string) {
+    const cart = await this.cartsService.findOne(+userId);
     if (!cart) {
       throw new HttpException('NOT FOUND', HttpStatus.NOT_FOUND);
     }
