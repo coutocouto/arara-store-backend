@@ -6,8 +6,8 @@ import {
   Max,
   MaxLength,
   Min,
+  IsOptional,
 } from 'class-validator';
-import { Image } from '../../index.entities';
 
 export class CreateProductDto {
   @IsString()
@@ -43,11 +43,11 @@ export class CreateProductDto {
   discount?: number;
 
   @IsInt()
-  @Min(0)
-  @Max(9999999)
+  @IsOptional()
   inherited?: number;
 
   @IsBoolean()
+  @IsOptional()
   disabled?: boolean;
 
   @IsInt()

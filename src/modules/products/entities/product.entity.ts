@@ -63,14 +63,16 @@ export class Product extends Model {
   @Column({
     type: DataTypes.INTEGER,
     defaultValue: null,
+    allowNull: true,
   })
   inherited?: number;
 
   @Column({
     type: DataTypes.BOOLEAN,
     defaultValue: false,
+    allowNull: true,
   })
-  disabled: boolean;
+  disabled?: boolean;
 
   @Column({
     type: DataTypes.INTEGER,

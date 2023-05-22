@@ -19,6 +19,7 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
   ) { }
+
   async signIn({ email, password }: SingInDto): Promise<singInReturn> {
     const user = await this.usersService.findOneByEmail(email);
 
