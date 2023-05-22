@@ -9,6 +9,11 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
+      soldOut: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
       userId: {
         type: Sequelize.INTEGER,
         references: {

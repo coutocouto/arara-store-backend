@@ -17,6 +17,11 @@ export class Cart extends Model {
   })
   id: number;
 
+  @Column({
+    type: DataTypes.BOOLEAN,
+  })
+  soldOut?: boolean;
+
   @ForeignKey(() => User)
   @Column
   userId: number;

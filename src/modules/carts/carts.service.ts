@@ -1,27 +1,43 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
-import { Cart } from './entities/cart.entity';
+import { Op } from 'sequelize';
+import { Item, Product, Cart, Image } from '../index.entities';
 
 @Injectable()
 export class CartsService {
   constructor(
     @Inject('CARTS_REPOSITORY')
     private cartRepository: typeof Cart,
-  ) {}
+  ) { }
   async create(createCartDto: CreateCartDto) {
     return await this.cartRepository.create({ ...createCartDto });
   }
 
   async findAll(): Promise<Cart[]> {
-    return await this.cartRepository.findAll<Cart>({
-      include: ['items', 'user'],
-    });
+    return await this.cartRepository.findAll<Cart>();
   }
 
-  async findOne(id: number): Promise<Cart> {
-    return await this.cartRepository.findByPk<Cart>(id, {
-      include: ['items', 'user'],
+  async findOne(userId: number): Promise<Cart> {
+    return await this.cartRepository.findOne<Cart>({
+      include: [
+        {
+          model: Item,
+          include: [
+            {
+              model: Product,
+              include: [
+                {
+                  model: Image,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      where: {
+        [Op.and]: [{ userId }, { soldOut: false }],
+      },
     });
   }
 
