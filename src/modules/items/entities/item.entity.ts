@@ -25,7 +25,9 @@ export class Item extends Model {
   product: Product;
 
   @ForeignKey(() => Cart)
-  @Column
+  @Column({
+    allowNull: true,
+  })
   cartId: number;
 
   @BelongsTo(() => Cart)

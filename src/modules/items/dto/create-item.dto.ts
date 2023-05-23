@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, Max, Min } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, Max, Min } from 'class-validator';
 
 export class CreateItemDto {
   @IsInt()
@@ -11,7 +11,13 @@ export class CreateItemDto {
   @Min(0)
   @Max(9999999)
   @IsNotEmpty()
-  cartId: number;
+  userId?: number;
+
+  @IsInt()
+  @Min(0)
+  @Max(9999999)
+  @IsOptional()
+  cartId?: number;
 
   @IsInt()
   @Min(0)

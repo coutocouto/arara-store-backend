@@ -2,16 +2,26 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { Item } from './entities/item.entity';
-import { Image, Product } from '../index.entities';
+import { Cart, Image, Product } from '../index.entities';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class ItemsService {
   constructor(
     @Inject('ITEMS_REPOSITORY')
     private itemRepository: typeof Item,
-  ) { }
+    @Inject('CARTS_REPOSITORY')
+    private cartRepository: typeof Cart,
+  ) {}
 
   async create(createItemDto: CreateItemDto): Promise<Item> {
+    const { id } = await this.cartRepository.findOne({
+      where: {
+        [Op.and]: [{ userId: createItemDto.userId }, { soldOut: false }],
+      },
+    });
+    delete createItemDto.userId;
+    createItemDto.cartId = id;
     return await this.itemRepository.create({ ...createItemDto });
   }
 
