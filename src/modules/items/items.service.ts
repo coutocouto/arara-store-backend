@@ -2,16 +2,49 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { Item } from './entities/item.entity';
-import { Image, Product } from '../index.entities';
+import { Cart, Image, Product } from '../index.entities';
+import { Op, Sequelize } from 'sequelize';
 
 @Injectable()
 export class ItemsService {
   constructor(
     @Inject('ITEMS_REPOSITORY')
     private itemRepository: typeof Item,
-  ) { }
+    @Inject('CARTS_REPOSITORY')
+    private cartRepository: typeof Cart,
+  ) {}
 
-  async create(createItemDto: CreateItemDto): Promise<Item> {
+  async create(
+    createItemDto: CreateItemDto,
+  ): Promise<Item | [affectedCount: number]> {
+    const { id } = await this.cartRepository.findOne({
+      where: {
+        [Op.and]: [{ userId: createItemDto.userId }, { soldOut: false }],
+      },
+    });
+
+    const itemExists = await this.itemRepository.findAll({
+      where: {
+        [Op.and]: [{ productId: createItemDto.productId }, { cartId: id }],
+      },
+    });
+
+    if (itemExists.length > 0) {
+      return await this.itemRepository.update(
+        {
+          quantity: Sequelize.literal(`quantity + ${createItemDto.quantity}`),
+        },
+        {
+          where: {
+            [Op.and]: [{ productId: createItemDto.productId }, { cartId: id }],
+          },
+        },
+      );
+    }
+
+    delete createItemDto.userId;
+    createItemDto.cartId = id;
+
     return await this.itemRepository.create({ ...createItemDto });
   }
 
