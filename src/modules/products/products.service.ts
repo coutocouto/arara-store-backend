@@ -24,7 +24,7 @@ export class ProductsService {
     private productsRepository: typeof Product,
     @Inject('IMAGES_REPOSITORY')
     private imagesRepository: typeof Image,
-  ) { }
+  ) {}
 
   async create(createProductDto: CreateProductDto) {
     const product = await this.productsRepository.create({
@@ -41,22 +41,9 @@ export class ProductsService {
     id,
     discount,
   }: IDiscountParams): Promise<[Product, boolean]> {
-    const { dataValues: product } = await this.findOne(+id);
+    const { dataValues: product }: any = await this.findOne(+id);
 
-    if (!product.disabled) {
-      product.disabled = true;
-      await this.update(id, product);
-    }
-
-    // DESABILITA OUTROS DESCONTOS (NÃO LEMBRO SE VAI PODE TER MAIS DE UM DESCONTO ATIVO, SE FOR PODER E SÓ TIRAR ESSE BLOCO)
-    this.productsRepository.update(
-      { disabled: true },
-      {
-        where: {
-          inherited: id,
-        },
-      },
-    );
+    await this.disableAllDiscounts(+id);
 
     product.disabled = false;
     product.discount = discount;
@@ -65,7 +52,7 @@ export class ProductsService {
     delete product.createdAt;
     delete product.updatedAt;
 
-    return await this.productsRepository.findOrCreate({
+    const newProduct: any = await this.productsRepository.findOrCreate({
       where: {
         [Op.and]: [{ inherited: id }, { discount }],
       },
@@ -73,6 +60,17 @@ export class ProductsService {
         ...product,
       },
     });
+
+    if (newProduct[1]) {
+      await this.createImages({
+        productId: newProduct[0].id,
+        images: product.images,
+      });
+    }
+
+    await this.enableOrDisableFather(product);
+
+    return newProduct;
   }
 
   async findAll({
@@ -119,9 +117,9 @@ export class ProductsService {
     });
   }
 
-  async update(
+  async updateOrCreate(
     id: number,
-    updateProductDto: UpdateProductDto,
+    updateProductDto: UpdateProductDto | any,
   ): Promise<Product> {
     await this.productsRepository.update(
       {
@@ -134,6 +132,14 @@ export class ProductsService {
       },
     );
     return this.productsRepository.create({ ...updateProductDto });
+  }
+
+  private async update(id: number, updateProductDto: UpdateProductDto) {
+    return this.productsRepository.update(updateProductDto, {
+      where: {
+        id,
+      },
+    });
   }
 
   async disableDiscount(id: number): Promise<[affectedCount: number]> {
@@ -166,8 +172,8 @@ export class ProductsService {
   }
 
   private async createImages({ productId, images }: CreateImageDto) {
-    const createImageDto = images.map((imageUrl: string) => {
-      return { productId, imageUrl };
+    const createImageDto = images.map((imageUrl: string | any) => {
+      return { productId, imageUrl: imageUrl.imageUrl || imageUrl };
     });
     return await this.imagesRepository.bulkCreate(createImageDto);
   }
@@ -191,7 +197,21 @@ export class ProductsService {
     if (count === 0) {
       await this.update(product.inherited, { disabled: false });
       return true;
+    } else {
+      await this.update(product.inherited, { disabled: true });
+      return false;
     }
-    return false;
+  }
+
+  private async disableAllDiscounts(id: number) {
+    // DESABILITA OUTROS DESCONTOS
+    await this.productsRepository.update(
+      { disabled: true },
+      {
+        where: {
+          inherited: id,
+        },
+      },
+    );
   }
 }
