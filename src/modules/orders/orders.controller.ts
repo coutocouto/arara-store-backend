@@ -5,8 +5,6 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
-  HttpCode,
   HttpStatus,
   HttpException,
   UseGuards,
@@ -37,9 +35,9 @@ export class OrdersController {
     return orders;
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const order = await this.ordersService.findOne(+id);
+  @Get(':userId')
+  async findAllByUserId(@Param('userId') userId: string) {
+    const order = await this.ordersService.findAllByUserId(+userId);
     if (!order) {
       throw new HttpException('NOT FOUND', HttpStatus.NOT_FOUND);
     }
@@ -51,14 +49,6 @@ export class OrdersController {
     @Param('id') id: string,
     @Body() updateOrderDto: UpdateOrderDto,
   ) {
-    await this.findOne(id);
     return this.ordersService.update(+id, updateOrderDto);
-  }
-
-  @Delete(':id')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param('id') id: string) {
-    await this.findOne(id);
-    return this.ordersService.remove(+id);
   }
 }

@@ -19,11 +19,13 @@ export class Order extends Model {
 
   @Column({
     type: DataTypes.STRING,
+    defaultValue: 'waiting payment',
   })
   statusPayment: string;
 
   @Column({
     type: DataTypes.STRING,
+    defaultValue: 'waiting payment',
   })
   statusOrder: string;
 
@@ -31,6 +33,12 @@ export class Order extends Model {
     type: DataTypes.STRING,
   })
   payment: string;
+
+  @Column({
+    type: DataTypes.DECIMAL,
+    allowNull: false,
+  })
+  shippingPrice: number;
 
   @ForeignKey(() => Cart)
   cartId: number;
