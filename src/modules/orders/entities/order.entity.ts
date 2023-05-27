@@ -34,6 +34,12 @@ export class Order extends Model {
   })
   payment: string;
 
+  @Column({
+    type: DataTypes.DECIMAL,
+    allowNull: false,
+  })
+  shippingPrice: number;
+
   @ForeignKey(() => Cart)
   cartId: number;
 
