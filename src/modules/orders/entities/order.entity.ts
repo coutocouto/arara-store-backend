@@ -19,11 +19,13 @@ export class Order extends Model {
 
   @Column({
     type: DataTypes.STRING,
+    defaultValue: 'waiting payment',
   })
   statusPayment: string;
 
   @Column({
     type: DataTypes.STRING,
+    defaultValue: 'waiting payment',
   })
   statusOrder: string;
 
