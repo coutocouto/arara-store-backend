@@ -23,6 +23,12 @@ export class OrdersService {
     });
   }
 
+  async findAllByUserId(userId: number): Promise<Order[]> {
+    return await this.ordersRepository.findAll<Order>({
+      where: { userId },
+    });
+  }
+
   async findOne(id: number): Promise<Order> {
     return await this.ordersRepository.findByPk<Order>(id, {
       include: ['address', 'cart', 'user'],
