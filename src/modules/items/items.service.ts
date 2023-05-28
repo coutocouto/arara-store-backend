@@ -17,6 +17,7 @@ export class ItemsService {
   async create(
     createItemDto: CreateItemDto,
   ): Promise<Item | [affectedCount: number]> {
+    // TODO: ERRO AQUI AO ENVIAR userId
     const { id } = await this.cartRepository.findOne({
       where: {
         [Op.and]: [{ userId: createItemDto.userId }, { soldOut: false }],
