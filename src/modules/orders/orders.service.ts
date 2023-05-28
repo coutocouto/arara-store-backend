@@ -6,14 +6,14 @@ import { Cart, Item, Product, Image } from '../index.entities';
 
 @Injectable()
 export class OrdersService {
-  private includedFields: any[];
+  private includeFields: any[];
   constructor(
     @Inject('ORDERS_REPOSITORY')
     private ordersRepository: typeof Order,
     @Inject('CARTS_REPOSITORY')
     private cartsRepository: typeof Cart,
   ) {
-    this.includedFields = [
+    this.includeFields = [
       'address',
       'user',
       {
@@ -38,25 +38,29 @@ export class OrdersService {
   }
 
   async create(createOrderDto: CreateOrderDto) {
-    return await this.ordersRepository.create({ ...createOrderDto });
+    const order = await this.ordersRepository.create({ ...createOrderDto });
+
+    await this.closeCart(createOrderDto.cartId);
+
+    return order;
   }
 
   async findAll(): Promise<Order[]> {
     return await this.ordersRepository.findAll<Order>({
-      include: this.includedFields,
+      include: this.includeFields,
     });
   }
 
   async findAllByUserId(userId: number): Promise<Order[]> {
     return await this.ordersRepository.findAll<Order>({
-      include: this.includedFields,
+      include: this.includeFields,
       where: { userId },
     });
   }
 
   async findOne(id: number): Promise<Order> {
     return await this.ordersRepository.findByPk<Order>(id, {
-      include: ['address', 'cart', 'user'],
+      include: this.includeFields,
     });
   }
 
@@ -77,5 +81,18 @@ export class OrdersService {
         id,
       },
     });
+  }
+
+  private async closeCart(id: number) {
+    return await this.cartsRepository.update(
+      {
+        soldOut: true,
+      },
+      {
+        where: {
+          id,
+        },
+      },
+    );
   }
 }

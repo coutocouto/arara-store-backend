@@ -10,4 +10,4 @@ import { CartsModule } from '../index.module';
   controllers: [OrdersController],
   providers: [OrdersService, ...ordersProviders],
 })
-export class OrdersModule { }
+export class OrdersModule {}
