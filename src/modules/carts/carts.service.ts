@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { PrecoPrazoResponse, calcularPrecoPrazo } from 'correios-brasil/dist';
@@ -10,7 +10,7 @@ export class CartsService {
   constructor(
     @Inject('CARTS_REPOSITORY')
     private cartRepository: typeof Cart,
-  ) { }
+  ) {}
   async create(createCartDto: CreateCartDto) {
     return await this.cartRepository.create({ ...createCartDto });
   }
@@ -62,10 +62,12 @@ export class CartsService {
   }
 
   async shipping({ cep }: { cep: string }): Promise<PrecoPrazoResponse[]> {
-    console.log(
-      '🚀 ~ file: carts.service.ts:50 ~ CartsService ~ shipping ~ cep:',
-      cep,
-    );
+    if (cep.length !== 8) {
+      throw new HttpException(
+        'ZIP CODE MUST BE EXACTLY 8 DIGITS',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     const args = {
       sCepOrigem: '03694000',
       sCepDestino: `${cep}`,
