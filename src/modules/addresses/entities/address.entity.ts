@@ -21,6 +21,11 @@ export class Address extends Model {
   @Column({
     type: DataTypes.STRING,
   })
+  description: string;
+
+  @Column({
+    type: DataTypes.STRING,
+  })
   country: string;
 
   @Column({

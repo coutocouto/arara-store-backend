@@ -30,7 +30,7 @@ import { DatabaseModule } from './db/database.module';
     DatabaseModule,
     ConfigModule.forRoot({
       isGlobal: true,
-    })
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

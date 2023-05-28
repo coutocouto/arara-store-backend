@@ -11,27 +11,27 @@ module.exports = {
       },
       country: {
         type: Sequelize.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       city: {
         type: Sequelize.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       state: {
         type: Sequelize.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       address: {
         type: Sequelize.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       number: {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        allowNull: false,
       },
       cep: {
         type: Sequelize.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       complement: {
         type: Sequelize.STRING,

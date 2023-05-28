@@ -1,15 +1,19 @@
 import {
   IsInt,
   IsNotEmpty,
+  IsOptional,
   IsString,
   Max,
   MaxLength,
   Min,
-  isNotEmpty,
 } from 'class-validator';
 import { User } from '../../users/entities/user.entity';
 
 export class CreateAddressDto {
+  @IsNotEmpty()
+  @IsString()
+  description: string;
+
   @IsNotEmpty()
   @IsString()
   country: string;
@@ -38,6 +42,7 @@ export class CreateAddressDto {
   cep: string;
 
   @IsString()
+  @IsOptional()
   complement?: string;
 
   @IsNotEmpty()

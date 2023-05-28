@@ -37,9 +37,9 @@ export class AddressController {
     return addresses;
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const address = await this.addressService.findOne(+id);
+  @Get(':userId')
+  async findOne(@Param('userId') userId: string) {
+    const address = await this.addressService.findOne(+userId);
     if (!address) {
       throw new HttpException('NOT FOUND', HttpStatus.NOT_FOUND);
     }
@@ -51,14 +51,12 @@ export class AddressController {
     @Param('id') id: string,
     @Body() updateAddressDto: UpdateAddressDto,
   ) {
-    await this.findOne(id);
     return await this.addressService.update(+id, updateAddressDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id') id: string) {
-    await this.findOne(id);
     return await this.addressService.remove(+id);
   }
 }
