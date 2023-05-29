@@ -18,19 +18,29 @@ export class Order extends Model {
   id: number;
 
   @Column({
-    type: DataTypes.STRING,
-    defaultValue: 'waiting payment',
+    type: DataTypes.ENUM(
+      'Aguardando pagamento',
+      'Aguardando aprovação',
+      'Pagamento Efetuado',
+    ),
+    defaultValue: 'Aguardando pagamento',
   })
   statusPayment: string;
 
   @Column({
-    type: DataTypes.STRING,
-    defaultValue: 'waiting payment',
+    type: DataTypes.ENUM(
+      'Aguardando pagamento',
+      'Pagamento aprovado',
+      'Em envio',
+      'Entregue',
+    ),
+    defaultValue: 'Aguardando pagamento',
   })
   statusOrder: string;
 
   @Column({
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM('Boleto', 'Pix', 'Débito', 'Crédito'),
+    defaultValue: null,
   })
   payment: string;
 
