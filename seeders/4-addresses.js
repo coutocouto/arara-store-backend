@@ -6,6 +6,7 @@ module.exports = {
     return queryInterface.bulkInsert('Addresses', [
       {
         id: 1,
+        description: 'Casa',
         country: 'Brasil',
         city: 'São Paulo',
         state: 'SP',
@@ -19,6 +20,7 @@ module.exports = {
       },
       {
         id: 2,
+        description: 'Casa 2',
         country: 'Brasil',
         city: 'São Paulo',
         state: 'SP',
@@ -32,6 +34,7 @@ module.exports = {
       },
       {
         id: 3,
+        description: 'Casa',
         country: 'Italia',
         city: 'Roma',
         state: 'RO',
@@ -44,6 +47,7 @@ module.exports = {
       },
       {
         id: 4,
+        description: 'Trabalho',
         country: 'França',
         city: 'Paris',
         state: 'PA',

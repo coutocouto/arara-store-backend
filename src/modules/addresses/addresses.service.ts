@@ -15,14 +15,14 @@ export class AddressService {
   }
 
   async findAll(): Promise<Address[]> {
-    return await this.addressRepository.findAll<Address>({
-      include: ['orders', 'user'],
-    });
+    return await this.addressRepository.findAll<Address>();
   }
 
-  async findOne(id: number): Promise<Address> {
-    return await this.addressRepository.findByPk<Address>(id, {
-      include: ['orders', 'user'],
+  async findOne(userId: number): Promise<Address> {
+    return await this.addressRepository.findOne<Address>({
+      where: {
+        userId,
+      },
     });
   }
 
