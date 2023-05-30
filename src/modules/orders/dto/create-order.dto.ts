@@ -1,8 +1,8 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateOrderDto {
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   payment?: string;
 
   @IsNumber()
