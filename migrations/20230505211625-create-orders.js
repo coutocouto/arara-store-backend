@@ -19,15 +19,16 @@ module.exports = {
       },
       statusOrder: {
         type: Sequelize.ENUM(
-          'Aguardando pagamento',
+          'Pedido Recebido',
           'Pagamento aprovado',
-          'Em envio',
+          'Entregue à Transportadora',
           'Entregue',
         ),
         defaultValue: 'Aguardando pagamento',
       },
       payment: {
         type: Sequelize.ENUM('Boleto', 'Pix', 'Débito', 'Crédito'),
+        allowNull: false,
         defaultValue: null,
       },
       createdAt: {

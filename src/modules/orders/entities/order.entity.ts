@@ -29,12 +29,12 @@ export class Order extends Model {
 
   @Column({
     type: DataTypes.ENUM(
-      'Aguardando pagamento',
+      'Pedido Recebido',
       'Pagamento aprovado',
-      'Em envio',
+      'Entregue à Transportadora',
       'Entregue',
     ),
-    defaultValue: 'Aguardando pagamento',
+    defaultValue: 'Pedido Recebido',
   })
   statusOrder: string;
 
