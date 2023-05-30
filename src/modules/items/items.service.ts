@@ -28,7 +28,7 @@ export class ItemsService {
     }
 
     if (await this.validateItemExists(cart, createItemDto)) {
-      return;
+      return [1];
     }
 
     createItemDto.cartId = cart?.id;
