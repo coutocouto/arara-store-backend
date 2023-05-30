@@ -17,34 +17,21 @@ export class ItemsService {
   async create(
     createItemDto: CreateItemDto,
   ): Promise<Item | [affectedCount: number]> {
-    // TODO: ERRO AQUI AO ENVIAR userId
-    const { id } = await this.cartRepository.findOne({
+    const cart = await this.cartRepository.findOne({
       where: {
         [Op.and]: [{ userId: createItemDto.userId }, { soldOut: false }],
       },
     });
 
-    const itemExists = await this.itemRepository.findAll({
-      where: {
-        [Op.and]: [{ productId: createItemDto.productId }, { cartId: id }],
-      },
-    });
-
-    if (itemExists.length > 0) {
-      return await this.itemRepository.update(
-        {
-          quantity: Sequelize.literal(`quantity + ${createItemDto.quantity}`),
-        },
-        {
-          where: {
-            [Op.and]: [{ productId: createItemDto.productId }, { cartId: id }],
-          },
-        },
-      );
+    if (!cart) {
+      return await this.createNewCartAndItem(createItemDto);
     }
 
-    delete createItemDto.userId;
-    createItemDto.cartId = id;
+    if (await this.validateItemExists(cart, createItemDto)) {
+      return;
+    }
+
+    createItemDto.cartId = cart?.id;
 
     return await this.itemRepository.create({ ...createItemDto });
   }
@@ -92,6 +79,38 @@ export class ItemsService {
       where: {
         id,
       },
+    });
+  }
+
+  private async createNewCartAndItem(
+    createItemDto: CreateItemDto,
+  ): Promise<Item | [affectedCount: number]> {
+    const newCart = await this.cartRepository.create({
+      userId: createItemDto.userId,
+    });
+
+    createItemDto.cartId = newCart.id;
+
+    return await this.itemRepository.create({ ...createItemDto });
+  }
+
+  private async validateItemExists(cart: Cart, createItemDto: CreateItemDto) {
+    const where = {
+      where: {
+        [Op.and]: [
+          { productId: createItemDto.productId },
+          { cartId: cart?.id },
+        ],
+      },
+    };
+
+    return await this.itemRepository.findOne(where).then((item) => {
+      return item?.update(
+        {
+          quantity: Sequelize.literal(`quantity + ${createItemDto.quantity}`),
+        },
+        where,
+      );
     });
   }
 }
