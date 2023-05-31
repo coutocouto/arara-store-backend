@@ -13,11 +13,6 @@ export class User extends Model {
 
   @Column({
     type: DataTypes.STRING,
-  })
-  userName: string;
-
-  @Column({
-    type: DataTypes.STRING,
     unique: true,
   })
   email: string;
@@ -31,6 +26,17 @@ export class User extends Model {
     type: DataTypes.STRING,
   })
   password: string;
+
+  @Column({
+    type: DataTypes.STRING,
+    unique: true,
+  })
+  cpf: string;
+
+  @Column({
+    type: DataTypes.DATE,
+  })
+  birth: string;
 
   @HasMany(() => Address)
   addresses: Address[];

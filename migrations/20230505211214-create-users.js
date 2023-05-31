@@ -9,17 +9,22 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      userName: {
-        type: Sequelize.STRING,
-      },
       email: {
         type: Sequelize.STRING,
+        unique: true,
       },
       fullName: {
         type: Sequelize.STRING,
       },
       password: {
         type: Sequelize.STRING,
+      },
+      cpf: {
+        type: Sequelize.STRING,
+        unique: true,
+      },
+      birth: {
+        type: Sequelize.DATE,
       },
       createdAt: {
         type: Sequelize.DATE,
