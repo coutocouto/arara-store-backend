@@ -10,13 +10,26 @@ module.exports = {
         primaryKey: true,
       },
       statusPayment: {
-        type: Sequelize.STRING,
+        type: Sequelize.ENUM(
+          'Aguardando pagamento',
+          'Aguardando aprovação',
+          'Pagamento Efetuado',
+        ),
+        defaultValue: 'Aguardando pagamento',
       },
       statusOrder: {
-        type: Sequelize.STRING,
+        type: Sequelize.ENUM(
+          'Pedido Recebido',
+          'Pagamento aprovado',
+          'Entregue à Transportadora',
+          'Entregue',
+        ),
+        defaultValue: 'Aguardando pagamento',
       },
       payment: {
-        type: Sequelize.STRING,
+        type: Sequelize.ENUM('Boleto', 'Pix', 'Débito', 'Crédito'),
+        allowNull: false,
+        defaultValue: null,
       },
       createdAt: {
         type: Sequelize.DATE,
