@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -12,6 +12,8 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
+    await this.validateUserExists(createUserDto);
+
     const saltOrRounds = 10;
     const hash = await bcrypt.hash(createUserDto.password, saltOrRounds);
     createUserDto.password = hash;
@@ -39,6 +41,14 @@ export class UsersService {
     });
   }
 
+  async findOneByCpf(cpf: string) {
+    return await this.userRepository.findOne<User>({
+      where: {
+        cpf,
+      },
+    });
+  }
+
   async update(
     id: number,
     updateUserDto: UpdateUserDto,
@@ -56,5 +66,17 @@ export class UsersService {
         id,
       },
     });
+  }
+
+  private async validateUserExists(createUserDto: CreateUserDto) {
+    const isEmailUnique = await this.findOneByEmail(createUserDto.email);
+    if (isEmailUnique) {
+      throw new HttpException('EMAIL JÁ CADASTRADO', HttpStatus.CONFLICT);
+    }
+    const isCpfUnique = await this.findOneByCpf(createUserDto.cpf);
+
+    if (isCpfUnique) {
+      throw new HttpException('CPF JÁ CADASTRADO', HttpStatus.CONFLICT);
+    }
   }
 }

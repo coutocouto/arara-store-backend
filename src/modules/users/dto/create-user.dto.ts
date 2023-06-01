@@ -1,10 +1,13 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsDate,
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  MinLength,
+} from 'class-validator';
 
 export class CreateUserDto {
-  @IsString()
-  @IsNotEmpty()
-  userName: string;
-
   @IsString()
   @IsNotEmpty()
   fullName: string;
@@ -17,4 +20,13 @@ export class CreateUserDto {
   @MinLength(8)
   @IsNotEmpty()
   password: string;
+
+  @IsString()
+  @IsNotEmpty()
+  cpf: string;
+
+  @Type(() => Date)
+  @IsDate()
+  @IsNotEmpty()
+  birth: Date;
 }
