@@ -38,8 +38,8 @@ export class AddressController {
   }
 
   @Get(':userId')
-  async findOne(@Param('userId') userId: string) {
-    const address = await this.addressService.findOne(+userId);
+  async findAddressesByUser(@Param('userId') userId: string) {
+    const address = await this.addressService.findAddressesByUser(+userId);
     if (!address) {
       throw new HttpException('NOT FOUND', HttpStatus.NOT_FOUND);
     }

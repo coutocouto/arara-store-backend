@@ -18,8 +18,8 @@ export class AddressService {
     return await this.addressRepository.findAll<Address>();
   }
 
-  async findOne(userId: number): Promise<Address> {
-    return await this.addressRepository.findOne<Address>({
+  async findAddressesByUser(userId: number): Promise<Address[]> {
+    return await this.addressRepository.findAll<Address>({
       where: {
         userId,
       },
