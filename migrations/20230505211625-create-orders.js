@@ -24,12 +24,12 @@ module.exports = {
           'Entregue à Transportadora',
           'Entregue',
         ),
-        defaultValue: 'Aguardando pagamento',
+        defaultValue: 'Pedido Recebido',
       },
       payment: {
         type: Sequelize.ENUM('Boleto', 'Pix', 'Débito', 'Crédito'),
         allowNull: false,
-        defaultValue: null,
+        defaultValue: 'Boleto',
       },
       createdAt: {
         type: Sequelize.DATE,

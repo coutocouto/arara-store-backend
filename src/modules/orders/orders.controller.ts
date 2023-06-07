@@ -35,9 +35,14 @@ export class OrdersController {
     return orders;
   }
 
-  @Get(':userId')
+  @Get('/user/:userId')
   async findAllByUserId(@Param('userId') userId: string) {
-    const order = await this.ordersService.findAllByUserId(+userId);
+    return await this.ordersService.findAllByUserId(+userId);
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    const order = await this.ordersService.findOne(+id);
     if (!order) {
       throw new HttpException('NOT FOUND', HttpStatus.NOT_FOUND);
     }
@@ -49,6 +54,7 @@ export class OrdersController {
     @Param('id') id: string,
     @Body() updateOrderDto: UpdateOrderDto,
   ) {
+    this.findOne(id);
     return this.ordersService.update(+id, updateOrderDto);
   }
 }
