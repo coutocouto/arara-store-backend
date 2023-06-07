@@ -31,6 +31,9 @@ module.exports = {
         allowNull: false,
         defaultValue: 'Boleto',
       },
+      trackingCode: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
