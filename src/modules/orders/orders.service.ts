@@ -3,6 +3,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './entities/order.entity';
 import { Cart, Item, Product, Image } from '../index.entities';
+import { rastrearEncomendas } from 'correios-brasil/dist';
 
 @Injectable()
 export class OrdersService {
@@ -81,6 +82,10 @@ export class OrdersService {
         id,
       },
     });
+  }
+
+  async tracking(trackingCode: string): Promise<any> {
+    return await rastrearEncomendas([trackingCode]);
   }
 
   private async closeCart(id: number) {

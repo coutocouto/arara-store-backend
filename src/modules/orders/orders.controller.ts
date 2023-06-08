@@ -49,6 +49,11 @@ export class OrdersController {
     return order;
   }
 
+  @Get('/tracking/:trackingCode')
+  async tracking(@Param('trackingCode') trackingCode: string): Promise<any> {
+    return await this.ordersService.tracking(trackingCode);
+  }
+
   @Patch(':id')
   async update(
     @Param('id') id: string,

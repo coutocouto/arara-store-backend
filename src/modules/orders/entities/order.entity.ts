@@ -45,6 +45,12 @@ export class Order extends Model {
   payment: string;
 
   @Column({
+    type: DataTypes.STRING,
+    defaultValue: null,
+  })
+  trackingCode: string;
+
+  @Column({
     type: DataTypes.DECIMAL,
     allowNull: false,
   })
