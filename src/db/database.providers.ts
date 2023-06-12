@@ -9,6 +9,7 @@ import {
   Product,
   User,
 } from '../modules/index.entities';
+import { Admin } from '../modules/users/entities/admin.entity';
 
 export const databaseProviders = [
   {
@@ -23,6 +24,7 @@ export const databaseProviders = [
         database: 'arara-store',
       });
       sequelize.addModels([
+        Admin,
         Address,
         Cart,
         Favorite,
