@@ -5,6 +5,7 @@ import { Product } from './entities/product.entity';
 import { Op } from 'sequelize';
 import { Image } from '../index.entities';
 import { CreateImageDto } from '../images/dto/create-image.dto';
+import { ShowCase } from './entities/showCase.entity';
 
 interface IOptionsParams {
   search?: string;
@@ -24,6 +25,8 @@ export class ProductsService {
     private productsRepository: typeof Product,
     @Inject('IMAGES_REPOSITORY')
     private imagesRepository: typeof Image,
+    @Inject('SHOWCASES_REPOSITORY')
+    private showCasesRepository: typeof ShowCase,
   ) {}
 
   async create(createProductDto: CreateProductDto) {
@@ -73,6 +76,15 @@ export class ProductsService {
     return newProduct;
   }
 
+  async createShowCase(createShowCaseDto: Array<number>): Promise<ShowCase[]> {
+    await this.showCasesRepository.destroy({ where: {} });
+    const showCaseDto = createShowCaseDto.map((productId: number) => {
+      return { productId };
+    });
+
+    return this.showCasesRepository.bulkCreate(showCaseDto);
+  }
+
   async findAll({
     search,
     page = 0,
@@ -107,8 +119,10 @@ export class ProductsService {
     });
   }
 
-  async findToHomePage(): Promise<Product[]> {
-    throw new Error('Method not implemented.');
+  async findShowCase(): Promise<ShowCase[]> {
+    return this.showCasesRepository.findAll({
+      include: ['product'],
+    });
   }
 
   async findOne(id: number): Promise<Product> {
