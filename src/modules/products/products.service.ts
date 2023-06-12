@@ -121,7 +121,16 @@ export class ProductsService {
 
   async findShowCase(): Promise<ShowCase[]> {
     return this.showCasesRepository.findAll({
-      include: ['product'],
+      include: [
+        {
+          model: Product,
+          include: [
+            {
+              model: Image,
+            },
+          ],
+        },
+      ],
     });
   }
 
