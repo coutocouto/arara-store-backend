@@ -1,5 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
 import {
+  Admin,
   Address,
   Cart,
   Favorite,
@@ -9,7 +10,6 @@ import {
   Product,
   User,
 } from '../modules/index.entities';
-import { Admin } from '../modules/users/entities/admin.entity';
 
 export const databaseProviders = [
   {

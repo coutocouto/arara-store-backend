@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module';
 
 export {
   AddressModule,
+  AuthModule,
   CartsModule,
   FavoritesModule,
   ImagesModule,
@@ -17,5 +18,4 @@ export {
   OrdersModule,
   ProductsModule,
   UsersModule,
-  AuthModule,
 };
