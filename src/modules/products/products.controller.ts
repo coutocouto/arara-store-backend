@@ -18,6 +18,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { ShowCase } from './entities/showCase.entity';
 
 @Controller('products')
 export class ProductsController {
@@ -67,9 +68,16 @@ export class ProductsController {
     return products;
   }
 
-  @Get('/home')
-  async getForHomePage(): Promise<Product[]> {
-    return await this.productsService.findToHomePage();
+  @Get('/showCase')
+  async getForHomePage(): Promise<ShowCase[]> {
+    return await this.productsService.findShowCase();
+  }
+
+  @Post('/showCase')
+  async createHomePage(
+    @Body() createShowCaseDto: Array<number>,
+  ): Promise<ShowCase[]> {
+    return await this.productsService.createShowCase(createShowCaseDto);
   }
 
   @Get(':id')

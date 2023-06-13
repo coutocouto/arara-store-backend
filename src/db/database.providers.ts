@@ -9,7 +9,8 @@ import {
   Product,
   User,
 } from '../modules/index.entities';
-import { Admin } from '../modules/users/entities/admin.entity';
+import { ShowCase } from '../modules/products/entities/showCase.entity';
+
 
 export const databaseProviders = [
   {
@@ -32,6 +33,7 @@ export const databaseProviders = [
         Item,
         Order,
         Product,
+        ShowCase,
         User,
       ]);
       return sequelize;
