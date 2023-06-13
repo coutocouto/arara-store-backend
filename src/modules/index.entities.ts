@@ -6,5 +6,6 @@ import { Item } from '../modules/items/entities/item.entity';
 import { Order } from '../modules/orders/entities/order.entity';
 import { Product } from './products/entities/product.entity';
 import { User } from '../modules/users/entities/user.entity';
+import { Admin } from '../modules/users/entities/admin.entity';
 
-export { Address, Cart, Favorite, Image, Item, Order, Product, User };
+export { Address, Cart, Favorite, Image, Item, Order, Product, User, Admin };

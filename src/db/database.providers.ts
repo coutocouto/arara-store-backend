@@ -1,5 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
 import {
+  Admin,
   Address,
   Cart,
   Favorite,
