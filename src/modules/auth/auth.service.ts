@@ -6,11 +6,6 @@ import * as bcrypt from 'bcrypt';
 
 export interface singInReturn {
   accessToken: string;
-  loggedUser: {
-    id: number;
-    email: string;
-    fullName: string;
-  };
 }
 
 @Injectable()
@@ -18,7 +13,7 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) { }
+  ) {}
 
   async signIn({ email, password }: SingInDto): Promise<singInReturn> {
     const user = await this.usersService.findOneByEmail(email);
@@ -33,16 +28,38 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    const loggedUser = {
+    const payload = {
       id: user.id,
       email: user.email,
       fullName: user.fullName,
     };
 
-    const payload = { email: email, sub: user.id };
     return {
       accessToken: await this.jwtService.signAsync(payload),
-      loggedUser,
+    };
+  }
+
+  async singInAdmin({ email, password }: SingInDto): Promise<singInReturn> {
+    const admin = await this.usersService.findAdminByEmail(email);
+
+    if (!admin) {
+      throw new UnauthorizedException('Admin not found');
+    }
+
+    const isMatch = await bcrypt.compare(password, admin.password);
+
+    if (!isMatch) {
+      throw new UnauthorizedException();
+    }
+
+    const payload = {
+      id: admin.id,
+      email: admin.email,
+      fullName: admin.fullName,
+    };
+
+    return {
+      accessToken: await this.jwtService.signAsync(payload),
     };
   }
 }

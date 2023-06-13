@@ -11,6 +11,7 @@ import {
 } from '../modules/index.entities';
 import { ShowCase } from '../modules/products/entities/showCase.entity';
 
+
 export const databaseProviders = [
   {
     provide: 'SEQUELIZE',
@@ -24,6 +25,7 @@ export const databaseProviders = [
         database: 'arara-store',
       });
       sequelize.addModels([
+        Admin,
         Address,
         Cart,
         Favorite,
