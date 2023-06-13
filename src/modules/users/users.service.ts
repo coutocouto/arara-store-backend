@@ -3,12 +3,15 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import { Admin } from './entities/admin.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @Inject('USERS_REPOSITORY')
     private userRepository: typeof User,
+    @Inject('ADMINS_REPOSITORY')
+    private adminsRepository: typeof Admin,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -35,6 +38,14 @@ export class UsersService {
 
   async findOneByEmail(email: string) {
     return await this.userRepository.findOne<User>({
+      where: {
+        email,
+      },
+    });
+  }
+
+  async findAdminByEmail(email: string) {
+    return await this.adminsRepository.findOne<Admin>({
       where: {
         email,
       },

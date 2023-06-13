@@ -11,4 +11,10 @@ export class AuthController {
   async signIn(@Body() signInDto: SingInDto): Promise<singInReturn> {
     return await this.authService.signIn(signInDto);
   }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('/admin')
+  async singInAdmin(@Body() signInDto: SingInDto): Promise<singInReturn> {
+    return await this.authService.singInAdmin(signInDto);
+  }
 }
