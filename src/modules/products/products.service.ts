@@ -5,7 +5,7 @@ import { Product } from './entities/product.entity';
 import { Op } from 'sequelize';
 import { Image } from '../index.entities';
 import { CreateImageDto } from '../images/dto/create-image.dto';
-import { ShowCase } from './entities/showCase.entity';
+import { Showcase } from './entities/showcase.entity';
 
 interface IOptionsParams {
   search?: string;
@@ -26,7 +26,7 @@ export class ProductsService {
     @Inject('IMAGES_REPOSITORY')
     private imagesRepository: typeof Image,
     @Inject('SHOWCASES_REPOSITORY')
-    private showCasesRepository: typeof ShowCase,
+    private showcasesRepository: typeof Showcase,
   ) {}
 
   async create(createProductDto: CreateProductDto) {
@@ -76,13 +76,13 @@ export class ProductsService {
     return newProduct;
   }
 
-  async createShowCase(createShowCaseDto: Array<number>): Promise<ShowCase[]> {
-    await this.showCasesRepository.destroy({ where: {} });
-    const showCaseDto = createShowCaseDto.map((productId: number) => {
+  async createShowcase(createShowcaseDto: Array<number>): Promise<Showcase[]> {
+    await this.showcasesRepository.destroy({ where: {} });
+    const showcaseDto = createShowcaseDto.map((productId: number) => {
       return { productId };
     });
 
-    return this.showCasesRepository.bulkCreate(showCaseDto);
+    return this.showcasesRepository.bulkCreate(showcaseDto);
   }
 
   async findAll({
@@ -119,8 +119,8 @@ export class ProductsService {
     });
   }
 
-  async findShowCase(): Promise<ShowCase[]> {
-    return this.showCasesRepository.findAll({
+  async findShowcase(): Promise<Showcase[]> {
+    return this.showcasesRepository.findAll({
       include: [
         {
           model: Product,

@@ -39,7 +39,7 @@ export class Order extends Model {
   statusOrder: string;
 
   @Column({
-    type: DataTypes.ENUM('Boleto', 'Pix', 'Débito', 'Crédito'),
+    type: DataTypes.ENUM('Boleto', 'Pix', 'Cartão'),
     defaultValue: null,
   })
   payment: string;

@@ -9,7 +9,7 @@ import { DataTypes } from 'sequelize';
 import { Product } from './product.entity';
 
 @Table
-export class ShowCase extends Model {
+export class Showcase extends Model {
   @Column({
     type: DataTypes.INTEGER,
     primaryKey: true,

@@ -27,7 +27,7 @@ module.exports = {
         defaultValue: 'Pedido Recebido',
       },
       payment: {
-        type: Sequelize.ENUM('Boleto', 'Pix', 'Débito', 'Crédito'),
+        type: Sequelize.ENUM('Boleto', 'Pix', 'Cartão'),
         allowNull: false,
         defaultValue: 'Boleto',
       },

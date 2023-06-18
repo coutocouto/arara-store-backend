@@ -10,8 +10,7 @@ import {
   Product,
   User,
 } from '../modules/index.entities';
-import { ShowCase } from '../modules/products/entities/showCase.entity';
-
+import { Showcase } from '../modules/products/entities/showcase.entity';
 
 export const databaseProviders = [
   {
@@ -34,7 +33,7 @@ export const databaseProviders = [
         Item,
         Order,
         Product,
-        ShowCase,
+        Showcase,
         User,
       ]);
       return sequelize;

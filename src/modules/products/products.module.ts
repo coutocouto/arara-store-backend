@@ -4,12 +4,12 @@ import { ProductsController } from './products.controller';
 import { productsProviders } from './products.providers';
 import { DatabaseModule } from '../../db/database.module';
 import { ImagesModule } from '../index.module';
-import { showCasesProviders } from './showCase.providers';
+import { showcasesProviders } from './showcase.providers';
 
 @Module({
   imports: [DatabaseModule, forwardRef(() => ImagesModule)],
   controllers: [ProductsController],
-  providers: [ProductsService, ...productsProviders, ...showCasesProviders],
+  providers: [ProductsService, ...productsProviders, ...showcasesProviders],
   exports: [ProductsService],
 })
 export class ProductsModule {}
