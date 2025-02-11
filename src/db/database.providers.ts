@@ -17,12 +17,12 @@ export const databaseProviders = [
     provide: 'SEQUELIZE',
     useFactory: async () => {
       const sequelize = new Sequelize({
-        dialect: 'mysql',
-        host: 'localhost',
-        port: 3308,
-        username: 'root',
-        password: 'root',
-        database: 'arara-store',
+        dialect: 'postgres',
+        host: process.env.POSTGRES_HOST || 'localhost',
+        port: 5432,
+        username: process.env.POSTGRES_USER || 'root',
+        password: process.env.POSTGRES_PASSWORD || 'root',
+        database: process.env.POSTGRES_DATABASE || 'arara-store',
       });
       sequelize.addModels([
         Admin,
