@@ -16,14 +16,26 @@ export const databaseProviders = [
   {
     provide: 'SEQUELIZE',
     useFactory: async () => {
-      const sequelize = new Sequelize({
-        dialect: 'postgres',
-        host: process.env.POSTGRES_HOST || 'localhost',
-        port: 5432,
-        username: process.env.POSTGRES_USER || 'root',
-        password: process.env.POSTGRES_PASSWORD || 'root',
-        database: process.env.POSTGRES_DATABASE || 'arara-store',
-      });
+      let sequelize;
+
+      if (process.env.DATABASE_URL) {
+        console.log('via DATABASE_URL');
+        sequelize = new Sequelize(process.env.DATABASE_URL, {
+          dialect: 'postgres',
+          dialectOptions: { ssl: {} },
+        });
+      } else {
+        console.log('via params');
+        sequelize = new Sequelize({
+          dialect: 'postgres',
+          host: 'localhost',
+          port: 5432,
+          username: 'root',
+          password: 'root',
+          database: 'arara-store',
+        });
+      }
+
       sequelize.addModels([
         Admin,
         Address,
